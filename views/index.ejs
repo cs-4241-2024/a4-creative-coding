@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- This code is for the login page -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login page">
+    <title>Tasks</title>
+
+    <link rel="stylesheet" href="/style.css" type="text/css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css">  -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+
+</head>
+
+<body class="mainbody">
+    <div class="header">
+        <h1>Hi <%= name %> here are your tasks:</h1>
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div class="form-container-main">
+        <h2>Create your tasks:</h2>
+
+        <form action="/tasks" method="POST" class="form">
+            <div class="form-group-container"> <!-- This should match your CSS -->
+                <div class="form-group-main">
+                    <label for="task">Task Name:</label>
+                    <input type="text" id="task" name="task" placeholder="Please enter your task" required
+                        autocomplete="off">
+                </div>
+                <div class="form-group-main">
+                    <label for="startdate">Start Date:</label>
+                    <input type="date" id="startdate" name="startdate" required>
+                </div>
+                <div class="form-group-main">
+                    <label for="duedate">Due Date:</label>
+                    <input type="date" id="duedate" name="duedate" required>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Add Task</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Tasks:</h2>
+    </div>
+
+    <table id="data-table">
+        <tr>
+            <th>Task</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Available Days</th>
+            <th>Days Left</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    
+        <% if(details!=null) { %>
+    
+            <% details.forEach(function(item){ %>
+            <tr>
+                <form action="/tasks/<%= item._id %>/edit" method="POST">
+                    <td>
+                        <label for="task">Task:</label>
+                        <input type="text" id="task" name="task" value="<%= item.task %>">
+                    </td>
+                    <td>
+                        <label for="startdate">Start Date:</label>
+                        <input type="date" id="startdate" name="startdate" value="<%= item.startdate.toISOString().split('T')[0] %>">
+                    </td>
+                    <td>
+                        <label for="duedate">Due Date:</label>
+                        <input type="date" id="duedate" name="duedate" value="<%= item.duedate.toISOString().split('T')[0] %>">
+                    </td>
+                    <td>
+                        <%= item.daysAvailable %>
+                    </td>
+                    <td>
+                        <%= item.daysLeft %>
+                    </td>
+                    <td>
+                        <button type="submit" class="edit">Save</button>
+                    </td>
+                </form>
+                <td>
+                    <form action="/tasks/<%= item._id %>?_method=DELETE" method="POST">
+                        <button type="submit" class="delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <% }) %>
+    
+        <% } %>
+    </table>    
+
+    <!-- <table id="data-table">
+        <tr>
+            <th>Task</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Available Days</th>
+            <th>Days Left</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <% if(details!=null) { %>
+
+            <% details.forEach(function(item){ %>
+                <tr>
+                    <td>
+                        <input type="text" name="task" value="<%= item.task %>">
+                    </td>
+                    <td>
+                        <input type="date" name="startdate" value="<%= item.startdate.toISOString().split('T')[0] %>">
+                    </td>
+                    <td>
+                        <input type="date" name="duedate" value="<%= item.duedate.toISOString().split('T')[0] %>">
+                    </td>
+                    <td>
+                        <%= item.daysAvailable %>
+                    </td>
+                    <td>
+                        <%= item.daysLeft %>
+                    </td>
+                    <td>
+                        <form action="/tasks/<%= item._id %>/edit" method="GET">
+                            <button type="submit" class="edit">Save</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/tasks/<%= item._id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="delete">Delete</button>
+                        </form>
+                    </td>
+
+                </tr>
+                <% }) %>
+
+                    <% } %>
+    </table> -->
+
+
+</body>
+
+</html>

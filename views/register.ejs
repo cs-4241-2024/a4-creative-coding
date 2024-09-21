@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- This code is for the register page-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register page">
+    <title>Register</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css">  -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body class="altbody">
+
+    <div class="form-container">
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required autocomplete="off">
+          </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" placeholder="Enter your email" required autocomplete="off">
+            </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="password" required>
+          </div>
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        <p>Already have an account? <a class="link" href="/login">Login</a></p>
+        <p>Or Login with <a class="link" href="/auth/github">GitHub</a></p>
+      </div>
+
+      <% if (message.error && message.error.length > 0) { %>
+        <script>
+            alert("<%= message.error[0] %>");
+        </script>
+    <% } %>
+    
+    <% if (message.success && message.success.length > 0) { %>
+        <script>
+            alert("<%= message.success[0] %>");
+        </script>
+    <% } %>
+    
+</body>
+</html>
