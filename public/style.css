@@ -202,4 +202,10 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+body {
+  position: relative; 
+  margin: 0;
+  height: 100vh;
+}
   
