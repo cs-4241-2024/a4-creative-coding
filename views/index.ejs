@@ -24,9 +24,47 @@
           font-size: 16px;
           cursor: pointer;
       }
+
+      .popup {
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); 
+        z-index: 9999; 
+    }
+    
+    .popup-content {
+        position: relative;
+        margin: 15% auto; 
+        padding: 20px;
+        width: 80%; 
+        background-color: white;
+        border-radius: 8px;
+    }
+    
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
     </style>
 </head>
 <body>
+        <div id="popup" class="popup"></div>
+          <div class="popup-content">
+              <span class="close-button" id="close-popup">&times;</span>
+              <h2>Instructions</h2>
+              <p>Here are some instructions for using this application...</p>
+              <button id="got-it">Got it!</button>
+          </div>
+      </div>
       <div id="song-buttons">
         <button id="song1">Play Sunflower</button>
         <button id="song2">Play WRLD Triumph</button>
@@ -147,5 +185,25 @@
         }
     </script>
     <script src="/js/bundle.js" type="module"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          const popup = document.getElementById("popup");
+          popup.style.display = "block";
+  
+          document.getElementById("close-popup").onclick = function() {
+              popup.style.display = "none";
+          };
+  
+          document.getElementById("got-it").onclick = function() {
+              popup.style.display = "none";
+          };
+
+          window.onclick = function(event) {
+              if (event.target == popup) {
+                  popup.style.display = "none";
+              }
+          };
+      });
+  </script>
 </body>
 </html>
