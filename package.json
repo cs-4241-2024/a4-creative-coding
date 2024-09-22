@@ -21,7 +21,8 @@
     "passport": "^0.7.0",
     "passport-github": "^1.1.0",
     "passport-github2": "^0.1.12",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "three": "^0.168.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
