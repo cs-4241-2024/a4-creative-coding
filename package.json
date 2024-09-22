@@ -1,7 +1,7 @@
 {
-  "name": "a3-colegw-cole-welcher",
+  "name": "a4-colegw-cole-welcher",
   "version": "1.0.0",
-  "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template ===",
+  "description": "Assignment 4 - Audio Visualizer",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js"
