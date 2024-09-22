@@ -188,4 +188,18 @@ h2 {
   tbody tr:nth-child(odd) {
     background-color: #1f1d1d; 
   }
+
+#song-buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
   

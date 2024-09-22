@@ -8,7 +8,7 @@ import {OutputPass} from 'three/examples/jsm/postprocessing/OutputPass';
 const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-//renderer.setClearColor(0x222222);
+
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -71,12 +71,32 @@ camera.add(listener);
 const sound = new THREE.Audio(listener);
 
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load('/song/sunflower.mp3', function(buffer) {
-	sound.setBuffer(buffer);
-	window.addEventListener('click', function() {
-		sound.play();
-	});
+// audioLoader.load('/song/sunflower.mp3', function(buffer) {
+// 	sound.setBuffer(buffer);
+// 	window.addEventListener('click', function() {
+// 		sound.play();
+// 	});
+// });
+
+
+document.getElementById('song1').addEventListener('click', function() {
+    loadAndPlaySong('/song/sunflower.mp3');
 });
+
+document.getElementById('song2').addEventListener('click', function() {
+    loadAndPlaySong('/song/triumph.mp3');
+});
+
+document.getElementById('song3').addEventListener('click', function() {
+    loadAndPlaySong('/song/symph.mp3');
+});
+
+function loadAndPlaySong(songPath) {
+    audioLoader.load(songPath, function(buffer) {
+        sound.setBuffer(buffer);
+        sound.play();
+    });
+}
 
 const analyser = new THREE.AudioAnalyser(sound, 32);
 
