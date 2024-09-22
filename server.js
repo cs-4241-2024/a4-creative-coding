@@ -56,61 +56,13 @@ app.use((req, res, next) => {
 });
 
 app.get("/", checkAuthenticated, async (req, res) => {
-    const tasks = await Task.find({ userId: req.user._id });
-    res.render('index.ejs', { name: req.user.name, email: req.user.email, githubId: req.user.githubId, details: tasks });
+    res.render('index.ejs');
 });
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
     res.render('register.ejs');
 });
 
-app.post('/tasks', checkAuthenticated, async (req, res) => {
-    try {
-        const { daysAvailable, daysLeft } = calculateDays(req.body.startdate, req.body.duedate);
-
-        const newTask = {
-            task: req.body.task,
-            startdate: req.body.startdate,
-            duedate: req.body.duedate,
-            daysAvailable,
-            daysLeft,
-            userId: req.user._id
-        };
-
-        await Task.create(newTask);
-        res.redirect('/');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error creating task');
-    }
-});
-
-app.delete('/tasks/:id', checkAuthenticated, async (req, res) => {
-    try {
-        await Task.findByIdAndDelete(req.params.id);
-        res.redirect('/');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error deleting task');
-    }
-});
-
-app.post('/tasks/:id/edit', checkAuthenticated, async (req, res) => {
-    const taskId = req.params.id;
-    const { task, startdate, duedate } = req.body;
-    try {
-        await Task.findByIdAndUpdate(taskId, {
-            task,
-            startdate: new Date(startdate),
-            duedate: new Date(duedate)
-        });
-
-        res.redirect('/');
-    } catch (error) {
-        console.error("Error updating task:", error);
-        res.status(500).send("An error occurred while updating the task.");
-    }
-});
 
 app.post('/login', checkNotAuthenticated, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -201,21 +153,6 @@ function checkNotAuthenticated(req, res, next) {
         return res.redirect('/');
     }
     next();
-}
-
-function calculateDays(start, end) {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const today = new Date();
-    startDate.setHours(0, 0, 0, 0);
-    endDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    const daysAvailable = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-    let daysLeft = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
-    if (daysLeft < 0) {
-        daysLeft = 0;
-    }
-    return { daysAvailable, daysLeft };
 }
 
 const PORT = process.env.PORT || 3000;
