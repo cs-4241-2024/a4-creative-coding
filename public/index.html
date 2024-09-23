@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>This is the Drake & Josh Audio Visualizer!</title>
+<style>
+  canvas {
+    
+    background-color: black;
+    margin: 40px
+  }
+  .documents {
+    display: flex;
+    justify-content:center;
+  }
+.documents h1{
+font-size: medium;
+margin: 50px;
+}
+
+
+  button, label, input {
+    display: block;
+    font-size: medium;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 10px;
+  }
+
+.controls{
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+align-items: center;
+margin-left: auto;}
+ 
+ .controls input{
+width: 100px;
+height: 100px;
+ }
+</style>
+
+  </head>
+  <body>
+<div class="controls">
+
+
+<label for = "pitch"> High-pass filter: <span id="pitchValue">1.0</span></label>
+<input id="pitch" type="range" min="0.5" max="3.0" step="0.25" value="1.0">
+
+<label for = "color"> Color: </label>
+<input id="color" type="color" value="#FF0000">
+
+<label for = "heightOfShape"> Bar height: <span id="heightValue">40.0</span></label>
+<input id="heightOfShape" type="range" min="100.0" max="700.0" step="10.0" value="100.0">
+
+<label for = "widthOfShape"> Bar width: <span id="widthValue">4.0</span></label>
+<input id="widthOfShape" type="range" min="1.0" max="10.0" step="0.5" value="4.0">
+
+
+</div>
+    <button>To commence the visualization, tap me!</button>
+<div class="documents">  
+  <canvas id="canvas" width="512" height="512"></canvas>
+
+    <h1>
+     
+    Welcome to the Audio Visualizer!<br><br><br>
+      
+    To begin, press the button that says “To commence the visualization, tap me !” <br><br>
+    
+    The slider to the right of “High-pass filter” is the high-pass filter adjuster. 
+    Click and drag the slider to the left to increase the amount of low freqencies allowed. Click and drag the slider to the right to decrease the amount of low frequencies allowed. <br><br>
+    
+    The box to the right of “Color” is the color modifier, which changes the color of the bars shown on the canvas. To change color, click on the color palette, click and drag the slider that pops up to the color you want, and click the shade of the color you want. <br><br>
+    
+    The slider to the right of “Bar height” is the bar height adjuster.
+    Click and drag the slider to the left to decrease the height of the bars. Click and drag the slider to the right to increase the height of the bars.<br><br>
+    
+    The slider to the right of “Bar width” is the bar width adjuster.
+    Click and drag the slider to the left to decrease the width of the bars. Click and drag the slider to the right to increase the width of the bars.<br><br>
+    
+    
+    (The following information is referring to the panel below the canvas.)<br><br>
+    
+    Press the pause button to pause the song. To resume the song, press the play button. <br><br>
+    
+    If you want to skip ahead in the song, click and drag the slider (with the timestamp) to the right. If you want to return to an earlier point in the song, click and drag the slider (with the timestamp) to the left. <br><br>
+    
+    There is an audio symbol with a slider attached to it that allows you to change the volume. Click and drag the slider to the left to make the song quieter. Click and drag the slider to the right to make the song louder.<br><br>
+    
+    Lastly, there are 3 dots at the end of the panel. If you click them, you will see a section titled “Playback speed”. Click this, and you will see it is set to “Normal” by default. If you want to make the song play more slowly, click one of the numbers that are less than 1. If you want to make the song play more quickly, click one of the numbers that are greater than 1.
+    
+    </h1>
+  </div>
+  
+    <script type="module" src="main.js" ></script>
+
+  <!--maybe ADD DOCUMENTATION TO THIS PAGEEEEEE-->
+  </body>
+</html>
