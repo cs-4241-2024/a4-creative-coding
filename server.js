@@ -3,7 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const dir  = 'public/';
+const dir  = 'public';
 const port = 3000;
 
 const app = express();
@@ -13,7 +13,7 @@ app.use( express.static(dir)); //Allows "public" files to be accessed and utiliz
 
 
 app.get('/', (req, res)=>{
-    res.sendFile(path.join(__dirname, './public', 'index.html'))
+    res.sendFile(path.join(__dirname, 'public', 'index.html'))
 
 })
 
