@@ -42,7 +42,7 @@ app.post("/config", async (req, res) => {
         // Save the configuration to the database
         const { config } = req.body;
         console.log('Received config data:', config);
-        await Config.findOneAndUpdate({}, { config }, { upsert: true, new: true });
+        await Config.findOneAndUpdate({}, config, { upsert: true, new: true });
         res.json({ message: 'Config saved: ', config });
     } catch (error) {
         console.error('Error saving config:', error);

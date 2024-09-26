@@ -191,7 +191,8 @@ const loadConfiguration = () => {
         .then(response => response.json())
         .then(data => {
             console.log('Loaded config:', data);
-            if (data && data.config) {
+            console.log('Loaded config:', data.config);
+            if (data) {
                 config = data;
                 applyConfiguration();
             }
@@ -202,6 +203,7 @@ const loadConfiguration = () => {
 }
 
 const applyConfiguration = () => {
+    console.log('Config to apply:', config);
     document.getElementById('cubeColor').value = '#' + config.cubeColor.toString(16).padStart(6, '0');
     document.getElementById('cubeSize').value = config.cubeSize;
     document.getElementById('cubeSpeed').value = config.cubeSpeed;
