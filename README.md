@@ -6,7 +6,7 @@ Glitch: []
 Quick Cube Clicker is a very simple game, interactive 3D web game built with Node.js, Express, Three.js, and MongoDB. Players click on a rotating cube as many times as possible within a 30 second time limit. The game features customizable graphics and a list of sorted high scores.
 
 # Key Features
-- 3D graphics powered bbby Three.js
+- 3D graphics powered by Three.js
 - Customizable cube properties and background colour
 - Highscore leaderboard shown with a side bar
 
