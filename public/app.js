@@ -84,7 +84,7 @@ function pieChart(data) {
             .attr("fill-opacity", 0.7)
             .text(d => d.data.value.toLocaleString("en-US")));
 
-    document.getElementById('visualization').innerHTML = ''; // Clear previous chart
+    document.getElementById('visualization').innerHTML = '';
     document.getElementById('visualization').appendChild(svg.node());
 
 }
