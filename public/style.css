@@ -1,0 +1,18 @@
+#visualization {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+svg {
+    display: block;
+    margin: 0 auto;
+}
+
+#header {
+    border-bottom: solid black 3px;
+    padding-bottom: 4px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
