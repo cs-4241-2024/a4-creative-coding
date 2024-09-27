@@ -64,6 +64,7 @@
               <p>In the top right after this popup :) there is two drops downs that allow you to change things like color (RGB values) and Bloom (strength, threshold and radius)</p>
               <p>In the top left there are three song choices (Sunflower - Post Malone), (Symphony - Imagine Dragons), and (Triumph - WRLD)</p>
               <p>Click on the song you want to play :D</p>
+              <p>You cannot reclick on a song during a song (if you do just refresh page to play a new song)</p>
               <button id="got-it">Got it!</button>
           </div>
       </div>
@@ -99,7 +100,6 @@
         return t*t*t*(t*(t*6.0-15.0)+10.0);
       }
 
-      // Classic Perlin noise, periodic variant
       float pnoise(vec3 P, vec3 rep)
       {
         vec3 Pi0 = mod(floor(P), rep); // Integer part, modulo period
