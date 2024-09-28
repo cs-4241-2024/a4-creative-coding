@@ -1,11 +1,12 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
 const OFFSET = 100;
-const DIMENSIONS = 50;
+const DIMENSIONS = 16;
 let spawn_counter = 0;
 let old_style = '#000000'
 let background = '#FFFFFF';
 let state = [];
+let activation_queue = [];
 let step_x, step_y;
 let should_update = true;
 let canvas;
@@ -77,6 +78,9 @@ class SpreadCell extends Cell {
     {
       for(let y_mod = -1; y_mod <= 1; y_mod++)
       {
+        if(x_mod == 0 && y_mod == 0) {
+          continue;
+        }
         let new_x = this.x + x_mod;
         let new_y = this.y + y_mod;
         if(new_x < DIMENSIONS && new_x >= 0 && new_y < DIMENSIONS && new_y >= 0)
@@ -84,6 +88,10 @@ class SpreadCell extends Cell {
           if(state[new_x][new_y] instanceof ColoredCell)
           {
             state[new_x][new_y] = new SpreadCellChild(this.color, new_x, new_y, x_mod, y_mod);
+          }
+
+          if(state[new_x][new_y] instanceof SpreadCell)  {
+            activation_queue.push(state[new_x][new_y]);
           }
         }
       }
@@ -100,7 +108,7 @@ class SpreadCell extends Cell {
   }
 }
 
-class SpreadCellChild extends ColoredCell {
+class SpreadCellChild extends CellChild {
   constructor(color, x, y, x_mod, y_mod) {
       super(color, x, y);
       this.x_mod = x_mod;
@@ -112,9 +120,23 @@ class SpreadCellChild extends ColoredCell {
 
     if(this.x + this.x_mod < DIMENSIONS && this.x + this.x_mod >= 0 && this.y + this.y_mod < DIMENSIONS && this.y + this.y_mod >= 0)
     {
+      if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof SpreadCell)  {
+        activation_queue.push(state[this.x + this.x_mod][this.y + this.y_mod]);
+      }
+
       if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof ColoredCell)  {
         state[this.x + this.x_mod][this.y + this.y_mod] = new SpreadCellChild(this.color, this.x + this.x_mod, this.y + this.y_mod, this.x_mod, this.y_mod);
       }
+
+      if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof CellChild)  {
+        let other_color = state[this.x + this.x_mod][this.y + this.y_mod].color;
+        let red_component = other_color.substring(1, 3) > this.color.substring(1, 3) ? other_color.substring(1, 3) : this.color.substring(1, 3);
+        let green_component = other_color.substring(3, 5) > this.color.substring(3, 5) ? other_color.substring(3, 5) : this.color.substring(3, 5);
+        let blue_component = other_color.substring(5) > this.color.substring(5) ? other_color.substring(5) : this.color.substring(5);
+        let final_color = '#' + red_component + green_component + blue_component;
+        state[this.x + this.x_mod][this.y + this.y_mod] = new SpreadCellChild(final_color, this.x + this.x_mod, this.y + this.y_mod, this.x_mod, this.y_mod);
+      }
+
     }
   }
 
@@ -128,7 +150,7 @@ update = async function () {
     redraw();
   }
 
-  await new Promise(r => setTimeout(r, 64));
+  await new Promise(r => setTimeout(r, 256));
 
   window.requestAnimationFrame(update);
 }
@@ -168,14 +190,21 @@ init = async function () {
 
 reload_state = async function () {
 
+  let new_activations = [...activation_queue];
+  activation_queue = [];
+
   for(let i = 0; i < DIMENSIONS; i++) {
     for(let j = 0; j < DIMENSIONS; j++) {
-      if(state[i][j].spawn_time != spawn_counter)
+      if(state[i][j] instanceof CellChild && state[i][j].spawn_time != spawn_counter)
       {
         state[i][j].ping(state);
         state[i][j].spawn_time = -1;
       }
     }
+  }
+
+  for(let item of new_activations) {
+    item.activate(state);
   }
 
   spawn_counter = (spawn_counter + 1) % 10;
@@ -229,12 +258,20 @@ reload = async function () {
   };
 
   canvas.onclick = function ( event ) {
+    let red = document.getElementById("red");
+    let green = document.getElementById("green");
+    let blue = document.getElementById("blue");
+
     let x_pos = event.pageX - canvas_left;
     let y_pos = event.pageY - canvas_top;
 
     [x_pos, y_pos] = snap_to_grid(x_pos, y_pos);
 
-    state[x_pos/step_x][y_pos/step_y] = new SpreadCell(draw_context.fillStyle, x_pos/step_x, y_pos/step_y, 5);
+    if(!(state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)] instanceof ColoredCell)) {
+      state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)].activate(state);
+    } else {
+      state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)] = new SpreadCell('#' + parseInt(red.value, 10).toString(16) + parseInt(green.value, 10).toString(16) + parseInt(blue.value, 10).toString(16), x_pos/step_x, y_pos/step_y, 5);
+    }
   };
 }
 
