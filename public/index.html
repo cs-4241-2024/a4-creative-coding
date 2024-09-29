@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokédex Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #controls {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      #controls label {
+        margin-right: 10px;
+      }
+
+      #controls input,
+      #controls select {
+        margin-right: 20px;
+        margin-bottom: 10px;
+      }
+
+      svg {
+        border: 1px solid #ccc;
+        margin: 20px auto;
+        display: block;
+      }
+
+      /* Tooltip styling */
+      .tooltip {
+        position: absolute;
+        visibility: hidden;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        pointer-events: none;
+      }
+
+      /* Modal styling */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 100px;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="tooltip"
+      style="
+        position: absolute;
+        visibility: hidden;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        pointer-events: none;
+      "
+    ></div>
+    <!-- The Modal -->
+    <div id="docModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>How to Use the Pokédex Visualization</h2>
+        <p>
+          This application provides visualizations for Pokémon based on their
+          attributes such as weaknesses, height, and weight.
+        </p>
+        <p><strong>Key Features:</strong></p>
+        <ul>
+          <li>
+            Select Pokémon from the dropdowns to compare their weaknesses in the
+            radar chart.
+          </li>
+          <li>
+            Use the sliders to filter Pokémon by candy count, height, weight,
+            and number of weaknesses.
+          </li>
+          <li>
+            The radar chart shows all possible weaknesses, and it will highlight
+            the ones that correspond to the selected Pokémon.
+          </li>
+          <li>
+            The stacked bar chart represents the distribution of weaknesses
+            across all available Pokémon.
+          </li>
+        </ul>
+        <p>
+          Click the close button or anywhere outside the modal to get started!
+        </p>
+      </div>
+    </div>
+
+    <h1>Pokédex Visualization</h1>
+
+    <div id="controls">
+      <!-- Pokémon Type Filter -->
+      <label for="type-select">Filter by Pokémon Type:</label>
+      <select id="type-select">
+        <option value="all">All Types</option>
+      </select>
+
+      <!-- Height Range Input (Meters) -->
+      <label for="min-height">Min Height (m):</label>
+      <input
+        type="number"
+        id="min-height"
+        placeholder="e.g., 0.1"
+        step="0.01"
+      />
+
+      <label for="max-height">Max Height (m):</label>
+      <input type="number" id="max-height" placeholder="e.g., 10" step="0.01" />
+
+      <!-- Weight Range Input (Kg) -->
+      <label for="min-weight">Min Weight (kg):</label>
+      <input type="number" id="min-weight" placeholder="e.g., 0.1" step="0.1" />
+
+      <label for="max-weight">Max Weight (kg):</label>
+      <input type="number" id="max-weight" placeholder="e.g., 500" step="0.1" />
+
+      <!-- Weakness and Candy Sliders -->
+      <label for="weakness-slider">Number of Weaknesses:</label>
+      <input type="range" id="weakness-slider" min="0" max="10" value="5" />
+
+      <label for="candy-slider">Candy Count:</label>
+      <input type="range" id="candy-slider" min="0" max="100" value="50" />
+
+      <!-- Reset Button -->
+      <button id="reset-button">Reset</button>
+
+      <!-- Pokémon Selection for Radar Chart Comparison -->
+      <label for="pokemon-select-1">Select Pokémon 1 for Radar Chart:</label>
+      <select id="pokemon-select-1"></select>
+
+      <label for="pokemon-select-2">Select Pokémon 2 for Radar Chart:</label>
+      <select id="pokemon-select-2"></select>
+    </div>
+
+    <!-- Existing Bar Chart SVG -->
+    <svg width="2000" height="900"></svg>
+
+    <!-- Radar Chart SVG -->
+    <svg id="radar-chart" width="600" height="600"></svg>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="D3.js"></script>
+
+    <script>
+      // Get the modal
+      var modal = document.getElementById("docModal");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // Open the modal when the page loads
+      window.onload = function () {
+        modal.style.display = "block";
+      };
+
+      // Close the modal when the user clicks on <span> (x)
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Close the modal when the user clicks anywhere outside of the modal
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>
