@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.0",
-    "gpu.js": "^2.16.0"
+    "express": "^4.21.0"
   }
 }
