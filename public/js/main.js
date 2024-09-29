@@ -464,5 +464,22 @@ window.onresize = async function() {
 window.onload = async function() {
   init();
   reload();
+  alert(`
+  Hello! Welcome to Fireflies (sorry, I am horrible at names)!
+
+  To use this project, click anywhere on the grid. This will place a colored cell on the grid that you clicked!
+  Clicking the cell again will activate it depending on the type of cell that you placed down.
+
+  You can find available cell types in the dropdown menu on the left side of the screen, with the default being Spread. 
+  Erase will simply erase any cell without activating them.
+  
+  The color of the cell that can be placed can be modified through the color selector or through individual RGB components, again on the left side of the screen
+
+  On the right side of the screen, you can adjust the grid size or change the background color -- NOTE these options will clear your canvas
+
+  Cells, when activated, will send out child cells depending on the original cell type. Cell children will merge and form new colors when they colide, and activate non-children cells for chain reactions!
+
+  Have fun!
+  `);
   requestAnimationFrame(update);
 }
