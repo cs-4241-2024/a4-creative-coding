@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "frontend": "vite",
-    "backend": "node app.js",
-    "start": "concurrently \"npm run frontend\" \"npm run backend\""
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "build": "vite build",
+    "serve": "vite preview",
+    "backend": "nodemon app.js",
+    "frontend": "vite"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
@@ -17,6 +19,7 @@
     "express": "^4.21.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.3",
+    "nodemon": "^3.1.7",
     "three": "^0.168.0"
   }
 }
