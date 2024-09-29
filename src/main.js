@@ -104,7 +104,7 @@ const endGame = () => {
 
 const saveScore = async (name, score) => {
     try {
-        const response = await fetch(`/scores`, {
+        const response = await fetch(`${API_BASE_URL}/scores`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -120,8 +120,13 @@ const saveScore = async (name, score) => {
 }
 
 const getHighScores = () => {
-    fetch(`/scores`)
-        .then(response => response.json())
+    fetch(`${API_BASE_URL}/scores`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();  // This parses the JSON
+        })
         .then(data => {
             console.log('High scores:', data);
             updateScoresList(data);
@@ -171,7 +176,7 @@ const updateBackgroundColor = (e) => {
 }
 
 const saveConfiguration = () => {
-    fetch(`/config`, {
+    fetch(`${API_BASE_URL}/config`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -190,7 +195,7 @@ const saveConfiguration = () => {
 }
 
 const loadConfiguration = () => {
-    fetch(`/config`)
+    fetch(`${API_BASE_URL}/config`)
         .then(response => response.json())
         .then(data => {
             console.log('Loaded config:', data);

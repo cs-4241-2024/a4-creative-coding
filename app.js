@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? 'https://a4-hanna-trinh.vercel.app/' : 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production' ? 'https://a4-hanna-trinh.vercel.app' : 'http://localhost:5173',
 }));
 
 app.use(express.json());
