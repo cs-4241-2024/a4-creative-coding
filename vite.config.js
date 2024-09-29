@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
 
 export default defineConfig({
-    root: resolve(__dirname, 'public'),  // Set the root to public
     build: {
-        outDir: resolve(__dirname, 'dist'),  // Output build files to dist/ for deployment
+        outDir: 'dist',  // Output to "dist" inside the project root
+        emptyOutDir: true,  // Clear the output directory before building
+        rollupOptions: {
+            input: '/public/index.html',  // Input file is the public/index.html
+        },
     },
 });
