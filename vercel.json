@@ -7,17 +7,23 @@
         },
         {
             "src": "package.json",
-            "use": "@vercel/static-build"
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist"
+            }
         }
     ],
     "routes": [
         {
             "src": "/scores",
-            "dest": "/app.js"
+            "dest": "app.js"
         },
         {
             "src": "/config",
-            "dest": "/app.js"
+            "dest": "app.js"
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",

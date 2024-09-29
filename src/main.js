@@ -11,8 +11,8 @@ let config = {
     cubeSpeed: 0.01,
     backgroundColor: 0x000000
 };
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? ''  // Empty because Vercel serves the backend on the same domain
+const API_BASE_URL = import.meta.env.PROD
+    ? ''  // Empty string for production
     : 'http://localhost:3000';
 
 const init = () => {
