@@ -2,10 +2,10 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
     build: {
-        outDir: 'dist',  // Output folder inside the project root
-        emptyOutDir: true,  // Clear output before building
+        outDir: 'dist',  // Output the built files into the "dist" directory
+        emptyOutDir: true,  // Empty the output directory before building
         rollupOptions: {
-            input: './public/index.html',  // Ensure correct input file for the build
-        },
-    },
+            input: './public/index.html',  // Specify the entry point for Vite
+        }
+    }
 });
