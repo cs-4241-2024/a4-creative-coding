@@ -11,11 +11,31 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
+    <form class="color-editor">
+      <label id="red-label" for="red">Red Component: </label>
       <input id="red" type="range" min="0" max="255"/>
+      <label id="green-label" for="green">Green Component: </label>
       <input id="green" type="range" min="0" max="255"/>
+      <label id="blue-label" for="blue">Blue Component: </label>
       <input id="blue" type="range" min="0" max="255"/>
+      <label id="color-label" for="color">Color: </label>
+      <input id="color" type="color" value="#000000"/>
+      <label id="type-label" for="type">Cell Type: </label>
+      <select id="type">
+        <optgroup>
+          <option value="spread">Spread</option>
+          <option value="diagonal">Diagonal</option>
+          <option value="cross">Cross</option>
+          <option value="erase">Erase</option>
+        </optgroup>
+      </select>
     </form>
-    <canvas id="main-canvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
+    <canvas id="main-canvas" style="border:1px solid #000000;"></canvas>
+    <div class="size-editor">
+      <form>
+        <input id="size" type="number" value="16"/>
+      </form>
+      <button id="set-size">Set Size</button>
+    </div>
   </body>
 </html>

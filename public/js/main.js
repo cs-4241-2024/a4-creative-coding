@@ -1,148 +1,251 @@
 // FRONT-END (CLIENT) JAVASCRIPT HERE
 
 const OFFSET = 100;
-const DIMENSIONS = 16;
+let dimensions = 16;
 let spawn_counter = 0;
 let old_style = '#000000'
 let background = '#FFFFFF';
+
 let state = [];
-let activation_queue = [];
+
+let activate_queue = [];
+let update_queue = [];
+
 let step_x, step_y;
 let should_update = true;
 let canvas;
 let draw_context;
 
 class Cell {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;  
+  }
+}
+
+class StaticCell extends Cell {
   constructor(color, x, y) {
-      this.color = color;
-      this.x = x;
-      this.y = y;  
-      this.spawn_time = spawn_counter;
+    super(x, y);
+    this.color = color;
+  }
+}
+
+class ActivatingCell extends Cell {
+  constructor(color, x, y) {
+    super(x, y);
+    this.color = color;
   }
 
   activate(state) {}
-
-  ping(state) {}
 }
 
-class ColoredCell extends Cell {
+class UpdatingCell extends Cell {
   constructor(color, x, y) {
-      super(color, x, y);
+    super(x, y);
+    this.color = color;
   }
 
-  activate(state) {}
-
-  ping(state) {}
+  update(state) {}
 }
 
-class CellChild {
-  constructor(color, x, y) {
-      this.color = color;
-      this.x = x;
-      this.y = y;  
-      this.spawn_time = spawn_counter;
-  }
-
-  activate(state) {}
-
-  ping(state) {}
-}
-
-class ComplexCell extends Cell {
-  constructor(color, x, y, lifetime) {
-      super(color, x, y);
-      this.lifetime = lifetime;
-  }
-
+class DiagonalCell extends ActivatingCell {
   activate(state) {
-    state[this.x][this.y] = new ColoredCell(background, this.x, this.y);
-  }
+    for(let [x_mod, y_mod] of [[-1, 1], [-1, -1], [1, -1], [1, 1]])
+    {
+      let new_x = this.x + x_mod;
+      let new_y = this.y + y_mod;
 
-  ping(state) {
-    this.lifetime -= 1;
-    if(this.lifetime === 0) {
-      this.activate(state);
+      if(new_x < dimensions && new_x >= 0 && new_y < dimensions && new_y >= 0)
+      {
+        if(state[new_x][new_y] instanceof StaticCell)
+        {
+          state[new_x][new_y] = new DiagonalCellChild(this.color, new_x, new_y, x_mod, y_mod);
+        }
+
+        if(state[new_x][new_y] instanceof ActivatingCell)  {
+          activate_queue.push(state[new_x][new_y]);
+        }
+      }
     }
+
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
   }
 }
 
-class SpreadCell extends Cell {
-  constructor(color, x, y, lifetime) {
-      super(color, x, y);
-      this.lifetime = lifetime;
-      this.base_lifetime = lifetime;
+class DiagonalCellChild extends UpdatingCell {
+  constructor(color, x, y, x_mod, y_mod) {
+    super(color, x, y);
+    this.x_mod = x_mod;
+    this.y_mod = y_mod;
   }
 
+  update(state) { 
+    let checks = [[this.x_mod, this.y_mod]];
+
+    for(let [temp_x_mod, temp_y_mod] of checks) {
+      if(this.x + temp_x_mod < dimensions && this.x + temp_x_mod >= 0 && this.y + temp_y_mod < dimensions && this.y + temp_y_mod >= 0)
+      {
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof ActivatingCell)  {
+          activate_queue.push(state[this.x + temp_x_mod][this.y + temp_y_mod]);
+        
+        }
+        
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof UpdatingCell)  {
+          let other_color = state[this.x + temp_x_mod][this.y + temp_y_mod].color;
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new DiagonalCellChild(combine_color(this.color, other_color), this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof StaticCell)  {
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new DiagonalCellChild(this.color, this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+      }
+    } 
+
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
+  }
+}
+
+class CrossCell extends ActivatingCell {
+  activate(state) {
+    for(let [x_mod, y_mod] of [[-1, 0], [1, 0], [0, -1], [0, 1]])
+    {
+      let new_x = this.x + x_mod;
+      let new_y = this.y + y_mod;
+
+      if(new_x < dimensions && new_x >= 0 && new_y < dimensions && new_y >= 0)
+      {
+        if(state[new_x][new_y] instanceof StaticCell)
+        {
+          state[new_x][new_y] = new CrossCellChild(this.color, new_x, new_y, x_mod, y_mod);
+        }
+
+        if(state[new_x][new_y] instanceof ActivatingCell)  {
+          activate_queue.push(state[new_x][new_y]);
+        }
+      }
+    }
+
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
+  }
+}
+
+class CrossCellChild extends UpdatingCell {
+  constructor(color, x, y, x_mod, y_mod) {
+    super(color, x, y);
+    this.x_mod = x_mod;
+    this.y_mod = y_mod;
+  }
+
+  update(state) { 
+    let checks = [[this.x_mod, this.y_mod]];
+
+    for(let [temp_x_mod, temp_y_mod] of checks) {
+      if(this.x + temp_x_mod < dimensions && this.x + temp_x_mod >= 0 && this.y + temp_y_mod < dimensions && this.y + temp_y_mod >= 0)
+      {
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof ActivatingCell)  {
+          activate_queue.push(state[this.x + temp_x_mod][this.y + temp_y_mod]);
+        
+        }
+        
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof UpdatingCell)  {
+          let other_color = state[this.x + temp_x_mod][this.y + temp_y_mod].color;
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new CrossCellChild(combine_color(this.color, other_color), this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof StaticCell)  {
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new CrossCellChild(this.color, this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+      }
+    } 
+
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
+  }
+}
+
+class SpreadCell extends ActivatingCell {
   activate(state) {
     for(let x_mod = -1; x_mod <= 1; x_mod++)
     {
       for(let y_mod = -1; y_mod <= 1; y_mod++)
       {
         if(x_mod == 0 && y_mod == 0) {
-          continue;
+          continue; // Avoid infinite loop
         }
+
         let new_x = this.x + x_mod;
         let new_y = this.y + y_mod;
-        if(new_x < DIMENSIONS && new_x >= 0 && new_y < DIMENSIONS && new_y >= 0)
+
+        if(new_x < dimensions && new_x >= 0 && new_y < dimensions && new_y >= 0)
         {
-          if(state[new_x][new_y] instanceof ColoredCell)
+          if(state[new_x][new_y] instanceof StaticCell)
           {
             state[new_x][new_y] = new SpreadCellChild(this.color, new_x, new_y, x_mod, y_mod);
           }
 
-          if(state[new_x][new_y] instanceof SpreadCell)  {
-            activation_queue.push(state[new_x][new_y]);
+          if(state[new_x][new_y] instanceof ActivatingCell)  {
+            activate_queue.push(state[new_x][new_y]);
           }
         }
       }
     }
 
-    this.lifetime = this.base_lifetime
-  }
-
-  ping(state) {
-    this.lifetime -= 1;
-    if(this.lifetime === 0) {
-      this.activate(state);
-    }
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
   }
 }
 
-class SpreadCellChild extends CellChild {
+class SpreadCellChild extends UpdatingCell {
   constructor(color, x, y, x_mod, y_mod) {
-      super(color, x, y);
-      this.x_mod = x_mod;
-      this.y_mod = y_mod;
+    super(color, x, y);
+    this.x_mod = x_mod;
+    this.y_mod = y_mod;
   }
 
-  activate(state) {
-    state[this.x][this.y] = new ColoredCell(background, this.x, this.y);
-
-    if(this.x + this.x_mod < DIMENSIONS && this.x + this.x_mod >= 0 && this.y + this.y_mod < DIMENSIONS && this.y + this.y_mod >= 0)
-    {
-      if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof SpreadCell)  {
-        activation_queue.push(state[this.x + this.x_mod][this.y + this.y_mod]);
-      }
-
-      if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof ColoredCell)  {
-        state[this.x + this.x_mod][this.y + this.y_mod] = new SpreadCellChild(this.color, this.x + this.x_mod, this.y + this.y_mod, this.x_mod, this.y_mod);
-      }
-
-      if(state[this.x + this.x_mod][this.y + this.y_mod] instanceof CellChild)  {
-        let other_color = state[this.x + this.x_mod][this.y + this.y_mod].color;
-        let red_component = other_color.substring(1, 3) > this.color.substring(1, 3) ? other_color.substring(1, 3) : this.color.substring(1, 3);
-        let green_component = other_color.substring(3, 5) > this.color.substring(3, 5) ? other_color.substring(3, 5) : this.color.substring(3, 5);
-        let blue_component = other_color.substring(5) > this.color.substring(5) ? other_color.substring(5) : this.color.substring(5);
-        let final_color = '#' + red_component + green_component + blue_component;
-        state[this.x + this.x_mod][this.y + this.y_mod] = new SpreadCellChild(final_color, this.x + this.x_mod, this.y + this.y_mod, this.x_mod, this.y_mod);
-      }
-
+  update(state) { 
+    let checks = [];
+    if(this.x_mod != 0 && this.y_mod != 0) {
+      checks = [[this.x_mod, 0], [this.x_mod, this.y_mod], [0, this.y_mod]];
+    } else {
+      checks = [[this.x_mod, this.y_mod]];
     }
-  }
 
-  ping(state) {
-    this.activate(state);
+    for(let [temp_x_mod, temp_y_mod] of checks) {
+      if(this.x + temp_x_mod < dimensions && this.x + temp_x_mod >= 0 && this.y + temp_y_mod < dimensions && this.y + temp_y_mod >= 0)
+      {
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof ActivatingCell)  {
+          activate_queue.push(state[this.x + temp_x_mod][this.y + temp_y_mod]);
+        }
+  
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof StaticCell)  {
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new SpreadCellChild(this.color, this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+  
+        if(state[this.x + temp_x_mod][this.y + temp_y_mod] instanceof UpdatingCell)  {
+          let other_color = state[this.x + temp_x_mod][this.y + temp_y_mod].color;
+          state[this.x + temp_x_mod][this.y + temp_y_mod] = new SpreadCellChild(combine_color(this.color, other_color), this.x + temp_x_mod, this.y + temp_y_mod, temp_x_mod, temp_y_mod);
+        }
+      }
+    } 
+
+    state[this.x][this.y] = new StaticCell(background, this.x, this.y);
   }
+}
+
+const translator = {
+  "spread": SpreadCell,
+  "diagonal": DiagonalCell,
+  "cross": CrossCell
+}
+
+combine_component = function(color_1, color_2) {
+  return ('00' + Math.min(255, Math.round(parseInt(color_1, 16) * 0.5) + Math.round(parseInt(color_2, 16) * 0.5)).toString(16)).slice(-2);
+}
+
+combine_color = function(color_1, color_2) {
+  let red_component = combine_component(color_1.substring(1, 3), color_2.substring(1, 3));
+  let green_component = combine_component(color_1.substring(3, 5), color_2.substring(3, 5));
+  let blue_component = combine_component(color_1.substring(5), color_2.substring(5));
+
+  return '#' + red_component + green_component + blue_component;
 }
 
 update = async function () {
@@ -176,13 +279,81 @@ redraw = async function () {
 
 init = async function () {
   canvas = document.getElementById("main-canvas");
+  let resize_button = document.getElementById("set-size");
+  let color_selector = document.getElementById("color");
+  size = document.getElementById("size");
+  dimensions = parseInt(size.value, 10);
   draw_context = canvas.getContext('2d');
+
+  let red = document.getElementById("red");
+  let green = document.getElementById("green");
+  let blue = document.getElementById("blue");
   
-  for(let i = 0; i < DIMENSIONS; i++)
+  let red_label = document.getElementById("red-label");
+  let green_label = document.getElementById("green-label");
+  let blue_label = document.getElementById("blue-label");
+  let color_label = document.getElementById("color-label");
+
+  red_label.innerText = "Red Component: " + red.value;
+  blue_label.innerText = "Blue Component: " + blue.value;
+  green_label.innerText = "Green Component: " + green.value;
+  color_label.innerText = "Color: " + color_selector.value;
+
+  red.onchange = async function () {
+    let color_label = document.getElementById("color-label");
+    let label = document.getElementById("red-label");
+    label.innerText = "Red Component: " + red.value;
+    color_selector.value = '#' + ('00' + parseInt(red.value, 10).toString(16)).slice(-2) + ('00' + parseInt(green.value, 10).toString(16)).slice(-2) + ('00' + parseInt(blue.value, 10).toString(16)).slice(-2);
+    color_label.innerText = "Color: " + color_selector.value;
+  }
+
+  blue.onchange = async function () {
+    let color_label = document.getElementById("color-label");
+    let label = document.getElementById("blue-label");
+    label.innerText = "Blue Component: " + blue.value;
+    color_selector.value = '#' + ('00' + parseInt(red.value, 10).toString(16)).slice(-2) + ('00' + parseInt(green.value, 10).toString(16)).slice(-2) + ('00' + parseInt(blue.value, 10).toString(16)).slice(-2);
+    color_label.innerText = "Color: " + color_selector.value;
+  }
+
+  green.onchange = async function () {
+    let color_label = document.getElementById("color-label");
+    let label = document.getElementById("green-label");
+    label.innerText = "Green Component: " + green.value;
+    color_selector.value = '#' + ('00' + parseInt(red.value, 10).toString(16)).slice(-2) + ('00' + parseInt(green.value, 10).toString(16)).slice(-2) + ('00' + parseInt(blue.value, 10).toString(16)).slice(-2);
+    color_label.innerText = "Color: " + color_selector.value;
+  }
+
+  resize_button.onclick = async function() {
+    init();
+    reload();
+  }
+
+  color_selector.onchange = async function() {
+    let result = color_selector.value;
+    let red = document.getElementById("red");
+    let green = document.getElementById("green");
+    let blue = document.getElementById("blue");
+    let red_label = document.getElementById("red-label");
+    let green_label = document.getElementById("green-label");
+    let blue_label = document.getElementById("blue-label");
+    let color_label = document.getElementById("color-label");
+    
+    red.value = parseInt(result.substring(1, 3), 16);
+    red_label.innerText = "Red Component: " + red.value;
+    green.value = parseInt(result.substring(3, 5), 16);
+    green_label.innerText = "Green Component: " + green.value;
+    blue.value = parseInt(result.substring(5), 16);
+    blue_label.innerText = "Blue Component: " + blue.value;
+
+    color_label.innerText = "Color: " + color_selector.value;
+  }
+
+  state = [];
+  for(let i = 0; i < dimensions; i++)
   {
     let temp = [];
-    for(let j = 0; j < DIMENSIONS; j++) {
-      temp.push(new ColoredCell(background, function(){}, function(){}));
+    for(let j = 0; j < dimensions; j++) {
+      temp.push(new StaticCell(background, i, j));
     }
     state.push(temp);
   }
@@ -190,30 +361,34 @@ init = async function () {
 
 reload_state = async function () {
 
-  let new_activations = [...activation_queue];
-  activation_queue = [];
+  for(let i = 0; i < dimensions; i++) {
+    for(let j = 0; j < dimensions; j++) {
+      draw_context.fillStyle = state[i][j].color;
+      draw_context.fillRect((i * step_x), j * step_y, step_x, step_y);
+    }
+  }
 
-  for(let i = 0; i < DIMENSIONS; i++) {
-    for(let j = 0; j < DIMENSIONS; j++) {
-      if(state[i][j] instanceof CellChild && state[i][j].spawn_time != spawn_counter)
+  for(let i = 0; i < dimensions; i++) {
+    for(let j = 0; j < dimensions; j++) {
+      if(state[i][j] instanceof UpdatingCell)
       {
-        state[i][j].ping(state);
-        state[i][j].spawn_time = -1;
+        update_queue.push(state[i][j]);
       }
     }
   }
+
+  let new_updates = [...update_queue];
+  update_queue = [];
+
+  let new_activations = [...activate_queue];
+  activate_queue = [];
 
   for(let item of new_activations) {
     item.activate(state);
   }
 
-  spawn_counter = (spawn_counter + 1) % 10;
-
-  for(let i = 0; i < DIMENSIONS; i++) {
-    for(let j = 0; j < DIMENSIONS; j++) {
-      draw_context.fillStyle = state[i][j].color;
-      draw_context.fillRect((i * step_x), j * step_y, step_x, step_y);
-    }
+  for(let item of new_updates) {
+    item.update(state);
   }
 
   draw_context.fillStyle = old_style
@@ -225,8 +400,8 @@ reload = async function () {
   canvas.width = canvas_size;
   canvas.height = canvas_size;
   
-  step_x = canvas.width/DIMENSIONS;
-  step_y = canvas.height/DIMENSIONS;
+  step_x = canvas.width/dimensions;
+  step_y = canvas.height/dimensions;
 
   redraw(canvas, draw_context);
 
@@ -239,38 +414,32 @@ reload = async function () {
     new_x = x_pos - (x_pos % step_x);
     new_y = y_pos - (y_pos % step_y);
 
-    return [new_x, new_y];
+    return [Math.round(new_x/step_x), Math.round(new_y/step_y)];
   }
-
-  window.onkeydown = function ( event ) {
-    console.log(event.key);
-    if(event.key === 'r') {
-      draw_context.fillStyle = '#FF0000'
-    }
-    if(event.key === 'g') {
-      draw_context.fillStyle = '#00FF00'
-    }
-    if(event.key === 'b') {
-      draw_context.fillStyle = '#0000FF'
-    }
-
-    old_style = draw_context.fillStyle;
-  };
 
   canvas.onclick = function ( event ) {
     let red = document.getElementById("red");
     let green = document.getElementById("green");
     let blue = document.getElementById("blue");
 
+    let draw_color = '#' + ('00' + parseInt(red.value, 10).toString(16)).slice(-2) + ('00' + parseInt(green.value, 10).toString(16)).slice(-2) + ('00' + parseInt(blue.value, 10).toString(16)).slice(-2);
+
     let x_pos = event.pageX - canvas_left;
     let y_pos = event.pageY - canvas_top;
 
     [x_pos, y_pos] = snap_to_grid(x_pos, y_pos);
 
-    if(!(state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)] instanceof ColoredCell)) {
-      state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)].activate(state);
+    let type = document.getElementById("type").value
+    if(type == 'erase') {
+      state[x_pos][y_pos] = new StaticCell(background, x_pos, y_pos)
+      return;
+    }
+
+    if(state[x_pos][y_pos] instanceof ActivatingCell) {
+      state[x_pos][y_pos].activate(state);
     } else {
-      state[Math.round(x_pos/step_x)][Math.round(y_pos/step_y)] = new SpreadCell('#' + parseInt(red.value, 10).toString(16) + parseInt(green.value, 10).toString(16) + parseInt(blue.value, 10).toString(16), x_pos/step_x, y_pos/step_y, 5);
+        let class_to_render = translator[type];
+        state[x_pos][y_pos] = new class_to_render(draw_color, x_pos, y_pos);
     }
   };
 }
