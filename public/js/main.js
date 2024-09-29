@@ -281,6 +281,7 @@ init = async function () {
   canvas = document.getElementById("main-canvas");
   let resize_button = document.getElementById("set-size");
   let color_selector = document.getElementById("color");
+  let background_color_selector = document.getElementById("background-color");
   size = document.getElementById("size");
   dimensions = parseInt(size.value, 10);
   draw_context = canvas.getContext('2d');
@@ -293,11 +294,16 @@ init = async function () {
   let green_label = document.getElementById("green-label");
   let blue_label = document.getElementById("blue-label");
   let color_label = document.getElementById("color-label");
+  let background_color_label = document.getElementById("background-color-label");
 
   red_label.innerText = "Red Component: " + red.value;
   blue_label.innerText = "Blue Component: " + blue.value;
   green_label.innerText = "Green Component: " + green.value;
+  color_selector.value = '#' + ('00' + parseInt(red.value, 10).toString(16)).slice(-2) + ('00' + parseInt(green.value, 10).toString(16)).slice(-2) + ('00' + parseInt(blue.value, 10).toString(16)).slice(-2);
+  
+  background = background_color_selector.value;
   color_label.innerText = "Color: " + color_selector.value;
+  background_color_label.innerText = "Background Color: " + background_color_selector.value;
 
   red.onchange = async function () {
     let color_label = document.getElementById("color-label");
@@ -346,6 +352,13 @@ init = async function () {
     blue_label.innerText = "Blue Component: " + blue.value;
 
     color_label.innerText = "Color: " + color_selector.value;
+  }
+  
+  background_color_selector.onchange = async function() {
+    let background_color_selector = document.getElementById("background-color");
+    background = background_color_selector.value;
+    init();
+    reload();
   }
 
   state = [];
