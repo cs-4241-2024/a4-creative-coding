@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Slime</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="instructions">
+      <h1>Slime Mold Simulation</h1>
+      <p>
+        This is a slime mold simulation, inspired by sources in the README. The
+        simulation is made up of 20,000 agents with very simple logic. Each
+        'agent' looks at two pixels in front of it and turns slightly towards
+        the one that is brighter. Each agent also leaves a white trail behind,
+        which decays over time. With the options on the top right, you can
+        control the following:
+      </p>
+      <ul>
+        <li>
+          Agent Velocity: The speed at which the agents move. Speeds greater
+          than 1 (pixel per frame) produce dotted lines.
+        </li>
+        <li>Sense Distance: The distance of the sense pixels from the agent</li>
+        <li>
+          Sense Angle: The angle in radians left and right of the sensed pixels
+          from the agent's current direction
+        </li>
+        <li>
+          Decay Factor: The rate at which pixels decay from white to black
+        </li>
+        <li>
+          Turn Speed: The angle in radians an agent can turn right or left
+        </li>
+      </ul>
+      <p>
+        Experiment with the settings! Beware, changing some settings too much
+        will produce chaos. Reload the page to return to the defaults, which
+        will produce a stable simulation.
+      </p>
+      <button id="close">Close</button>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
