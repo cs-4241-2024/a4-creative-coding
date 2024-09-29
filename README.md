@@ -1,6 +1,6 @@
 ## Quick Cube Clicker: 3D Web Game
 
-Vercel: a4-hanna-trinh.vercel.app
+Vercel: [a4-hanna-trinh.vercel.app](https://a4-hanna-trinh.vercel.app/)
 
 # Brief Overview
 Quick Cube Clicker is a very simple game, interactive 3D web game built with Node.js, Express, Three.js, and MongoDB. Players click on a rotating cube as many times as possible within a 30 second time limit. The game features customizable graphics and a list of sorted high scores.
