@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Fancy procedural color effects">
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <title>Fireflies</title>
+    <!-- get rid of favicon error -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  </head>
+  <body>
+    <form class="color-editor">
+      <label id="red-label" for="red">Red Component: </label>
+      <input id="red" type="range" min="0" max="255"/>
+      <label id="green-label" for="green">Green Component: </label>
+      <input id="green" type="range" min="0" max="255"/>
+      <label id="blue-label" for="blue">Blue Component: </label>
+      <input id="blue" type="range" min="0" max="255"/>
+      <label id="color-label" for="color">Color: </label>
+      <input id="color" type="color" value="#000000"/>
+      <label id="type-label" for="type">Cell Type: </label>
+      <select id="type">
+        <optgroup>
+          <option value="spread">Spread</option>
+          <option value="diagonal">Diagonal</option>
+          <option value="cross">Cross</option>
+          <option value="erase">Erase</option>
+        </optgroup>
+      </select>
+    </form>
+    <canvas id="main-canvas" style="border:1px solid #000000;"></canvas>
+    <form class="size-editor">
+      <input id="size" type="number" value="16"/>
+      <button id="set-size" type="button">Set Size</button>
+      <label id="background-color-label" for="background-color">Background Color: </label>
+      <input id="background-color" type="color" value="#FFFFFF"/>
+    </form>
+  </body>
+</html>
