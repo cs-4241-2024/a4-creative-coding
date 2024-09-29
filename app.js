@@ -5,13 +5,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { Config, Score } from './models.js';
 import dotenv from 'dotenv';
-dotenv.config();
 
+dotenv.config();
+const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' ? 'https://a4-hanna-trinh.vercel.app' : 'http://localhost:5173',
 }));
