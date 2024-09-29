@@ -1,0 +1,17 @@
+canvas {
+    border: 1px solid black;
+    
+    background-color: wheat;
+}
+
+/*
+.toolbar {
+    border: 1px solid black;
+    background-color: antiquewhite;
+}
+
+.interactive {
+    display: flex;
+    gap: 10px;
+}
+*/
