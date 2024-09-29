@@ -44,6 +44,16 @@ app.get("/scores", async (req, res) => {
     }
 });
 
+app.delete("/scores", async (req, res) => {
+    try {
+        await Score.deleteMany();
+        res.json({ message: 'Scores deleted' });
+    } catch (error) {
+        console.error('Error deleting scores:', error);
+        res.status(500).json({ error: 'Failed to delete scores' });
+    }
+});
+
 app.post("/config", async (req, res) => {
     try {
         // Save the configuration to the database

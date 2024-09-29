@@ -81,7 +81,7 @@ label {
 }
 
 /* CSS */
-#customizeButton {
+.custom-button {
     align-items: center;
     appearance: none;
     background-color: #FCFCFD;
@@ -99,10 +99,6 @@ label {
     padding-left: 16px;
     padding-right: 16px;
     height: 20px;
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    z-index: 150;
     text-align: left;
     text-decoration: none;
     transition: box-shadow .15s, transform .15s;
@@ -114,16 +110,23 @@ label {
     font-size: 14px;
 }
 
-#customizeButton :focus {
+.custom-button :focus {
     box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
 }
 
-#customizeButton :hover {
+.custom-button :hover {
     box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
     transform: translateY(-2px);
 }
 
-#customizeButton :active {
+.custom-button :active {
     box-shadow: #D6D6E7 0 3px 7px inset;
     transform: translateY(2px);
+}
+
+#customizeButton {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 150;
 }

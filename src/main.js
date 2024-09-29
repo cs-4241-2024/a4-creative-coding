@@ -31,6 +31,7 @@ const init = () => {
     document.getElementById('sideArrow').addEventListener('click', () => toggleOverlay('scoresOverlay'));
     document.querySelectorAll('.closeOverlay').forEach(el => el.addEventListener('click', (event) => toggleOverlay(event.target.parentElement.id)));
     document.getElementById('customizeButton').addEventListener('click', () => toggleOverlay('customizeOverlay'));
+    document.getElementById('deleteScores').addEventListener('click', deleteSCores);
 
     document.getElementById('cubeColor').addEventListener('change', updateCubeColor);
     document.getElementById('cubeSize').addEventListener('input', updateCubeSize);
@@ -100,6 +101,21 @@ const endGame = () => {
         saveScore(name, score);
     }
     document.getElementById('info').innerText = 'Game over! Click the cube to start again';
+}
+
+const deleteSCores = () => {
+    fetch(`${API_BASE_URL}/scores`, {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Scores deleted:', data);
+            getHighScores();
+        })
+        .catch((error) => {
+            console.error('Error deleting scores:', error);
+        }
+        );
 }
 
 const saveScore = async (name, score) => {
