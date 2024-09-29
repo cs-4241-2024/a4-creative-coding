@@ -1,0 +1,25 @@
+{
+  "name": "your-app-name",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "build": "vite build",
+    "serve": "vite preview",
+    "backend": "nodemon app.js",
+    "frontend": "vite"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "vite": "^5.4.7"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.3",
+    "nodemon": "^3.1.7",
+    "three": "^0.168.0"
+  }
+}
