@@ -1,15 +1,23 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { Config, Score } from './models.js';
 import dotenv from 'dotenv';
-console.log(dotenv.config());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
 const app = express();
 
-app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-    origin: 'http://localhost:5173' // Only allow requests from your Vite app
+    origin: process.env.NODE_ENV === 'production' ? 'https://a4-hanna-trinh.vercel.app' : 'http://localhost:5173',
 }));
+
+app.use(express.json());
 
 app.post("/scores", async (req, res) => {
     try {
@@ -69,7 +77,8 @@ const start = async () => {
         console.log("Connected to MongoDB");
 
         // Start the server after the connection is established
-        app.listen(3000, () => {
+        const port = process.env.PORT || 3000;
+        app.listen(port, () => {
             console.log("Server is running on port 3000");
         });
     } catch (error) {

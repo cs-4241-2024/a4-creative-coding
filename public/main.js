@@ -11,6 +11,9 @@ let config = {
     cubeSpeed: 0.01,
     backgroundColor: 0x000000
 };
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? ''  // Empty because Vercel serves the backend on the same domain
+    : 'http://localhost:3000';
 
 const init = () => {
     scene = new THREE.Scene();
@@ -101,7 +104,7 @@ const endGame = () => {
 
 const saveScore = async (name, score) => {
     try {
-        const response = await fetch('http://localhost:3000/scores', {
+        const response = await fetch(`${API_BASE_URL}/scores`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -117,7 +120,7 @@ const saveScore = async (name, score) => {
 }
 
 const getHighScores = () => {
-    fetch('http://localhost:3000/scores')
+    fetch(`${API_BASE_URL}/scores`)
         .then(response => response.json())
         .then(data => {
             console.log('High scores:', data);
@@ -168,7 +171,7 @@ const updateBackgroundColor = (e) => {
 }
 
 const saveConfiguration = () => {
-    fetch('http://localhost:3000/config', {
+    fetch(`${API_BASE_URL}/config`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -187,7 +190,7 @@ const saveConfiguration = () => {
 }
 
 const loadConfiguration = () => {
-    fetch('http://localhost:3000/config')
+    fetch(`${API_BASE_URL}/config`)
         .then(response => response.json())
         .then(data => {
             console.log('Loaded config:', data);
