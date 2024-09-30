@@ -1,0 +1,16 @@
+{
+    "name": "cs-4241-a4-creative-coding",
+    "version": "1.0.0",
+    "description": "Assignment 4: Creative Coding",
+    "author": "Ian Poulsen",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "cors": "^2.8.5"
+    },
+    "engines": {
+      "node": "^16.x"
+    }
+  }
