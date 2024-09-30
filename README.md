@@ -16,4 +16,4 @@ Project Requirements:
  
 My biggest challenges were finding how to get the user to be able to write on the screen (as in, the main feature of my idea) and the styling. I feel like my CSS stylesheet looks polluted and convoluted but at least the webpage looks nice!
 
-*the buttons in the top right corner of the webpage are just there for decoration*
+*heads up: the buttons in the top right corner of the webpage are just there for decoration*
