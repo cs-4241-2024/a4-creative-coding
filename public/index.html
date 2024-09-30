@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palette Lock</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <h1>draw something</h1>
+        <div class="decoBtns">
+            <button id="minimize"><img src="icons/window-minimize.svg" class="deco1"></button>
+            <button id="window"><img src="icons/window-maximize.svg" class="deco1"></button>
+            <button id="close" class="deco2"><img src="icons/cross.svg"></button>
+        </div>
+    </header>
+
+    <div class="funcBar">
+        <h3>~with a random color palette~</h3>
+    </div>
+
+    <div class="interactive">
+        <!-- drawing canvas-->
+        <div class="canvas">
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+        <!-- tool bar-->
+        <div class="toolBar">
+            <!-- first interactive element: line thickness-->
+            <button id="toggleLineThicknessBtn" title="adjust line thickness"><img src="./icons/line-width.svg" class="icon"></button>
+            <input type="range" id="lineThicknessSlider" min="1" max="10" value="2" style="display: none;">
+
+            <!-- third interactive element: eraser-->
+            <button id="eraserBtn" title="eraser"><img src="icons/eraser.svg" class="icon"></button>
+            <button id="drawBtn" class="active" title="pen tool"><img src="icons/attribution-pencil.svg" class="icon"></button>
+
+            <!-- fourth interactive element: clear canvas-->
+            <button id="clearBtn" title="clear canvas"><img src="icons/trash.svg" class="icon"></button>
+
+            <!-- fifth interactive element: download drawing-->
+            <button id="downloadBtn" title="save as jpeg"><img src="icons/folder-download.svg" class="icon"></button>
+
+        </div>
+
+    </div>
+
+    <!-- second interactive element: select pen color-->
+    <div class="colorBar"></div>
+    
+    <script src="./main.js"></script>
+</body>
+</html>
