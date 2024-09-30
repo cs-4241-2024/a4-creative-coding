@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const height = +svg.attr("height");
   const radarWidth = +radarSvg.attr("width");
   const radarHeight = +radarSvg.attr("height");
-  const margin = { top: 100, right: 50, bottom: 200, left: 80 }; // Updated margins
-  const radarMargin = { top: 60, right: 30, bottom: 60, left: 30 }; // Updated radar chart margin
+  const margin = { top: 100, right: 50, bottom: 200, left: 80 };
+  const radarMargin = { top: 60, right: 30, bottom: 60, left: 30 };
 
   const typeSelect = document.getElementById("type-select");
   const minHeightInput = document.getElementById("min-height");
