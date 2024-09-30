@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body>
+    <h1>Audio Visualizer</h1>
+    <p>
+      Click the button below to begin the visualization. Click the red color
+      selector to choose display color.
+    </p>
+    <button>click me</button>
+    <input
+      type="color"
+      id="colorPicker"
+      value="#ff0000"
+      style="margin-top: 20px"
+    />
+    <p></p>
+  </body>
+  <script type="module">
+    import { Pane } from "https://cdn.jsdelivr.net/npm/tweakpane@4.0.3/dist/tweakpane.min.js";
+    const settings = {
+      barWidth: 2,
+      amplitude: 1,
+      color: "#ff0000",
+    };
+
+    const pane = new Pane();
+
+    pane
+      .addBlade({
+        view: "slider",
+        label: "Bar Width",
+        min: 2,
+        max: 50,
+        value: settings.barWidth,
+      })
+      .on("change", (ev) => {
+        settings.barWidth = ev.value;
+      });
+    pane
+      .addBlade({
+        view: "slider",
+        label: "Amplitude",
+        min: 1,
+        max: 5,
+        value: settings.amplitude,
+      })
+      .on("change", (ev) => {
+        settings.amplitude = ev.value;
+      });
+
+    // for some reason every time i try to use the tweakpane color
+    // blade it just breaks everything. so html it is!
+    const colorPicker = document.getElementById("colorPicker");
+    colorPicker.addEventListener("input", (ev) => {
+      settings.color = ev.target.value;
+    });
+
+    let draw;
+    const start = async function () {
+      const canvas = document.createElement("canvas");
+      document.body.appendChild(canvas);
+      canvas.width = canvas.height = 512;
+      const ctx = canvas.getContext("2d");
+
+      // audio init
+      const audioCtx = new AudioContext();
+      const audioElement = document.createElement("audio");
+      document.body.appendChild(audioElement);
+
+      // audio graph setup
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048; // 512 bins
+      const player = audioCtx.createMediaElementSource(audioElement);
+      player.connect(audioCtx.destination);
+      player.connect(analyser);
+
+      // make sure, for this example, that your audiofle is accesssible
+      // from your server's root directory... here we assume the file is
+      // in the same location as our index.html file
+      audioElement.crossOrigin = "anonymous";
+      audioElement.src =
+        "https://cdn.glitch.global/98076c10-b320-4427-a1b5-b7c51cc6d555/MuseSupermassiveBlackHole.mp3?v=1727663075441";
+      audioElement.play();
+
+      const results = new Uint8Array(analyser.frequencyBinCount);
+
+      draw = function () {
+        // temporal recursion, call tthe function in the future
+        window.requestAnimationFrame(draw);
+
+        // fill our canvas with a black box
+        // by doing this every frame we 'clear' the canvas
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // set the color to white for drawing our visuaization
+        ctx.fillStyle = settings.color;
+
+        analyser.getByteFrequencyData(results);
+
+        for (let i = 0; i < analyser.frequencyBinCount; i++) {
+          const barHeight = (results[i] * settings.amplitude) / 2;
+          ctx.fillRect(
+            i * settings.barWidth,
+            canvas.height - barHeight,
+            settings.barWidth - 1,
+            barHeight
+          );
+        }
+      };
+      draw();
+    };
+
+    window.onload = () => (document.querySelector("button").onclick = start);
+  </script>
+</html>
