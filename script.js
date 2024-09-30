@@ -156,7 +156,7 @@ document.getElementById("playBtn").addEventListener("click", () => {
 
 document.getElementById("downloadBtn").addEventListener("click", () => {
   const link = document.createElement("a");
-  link.href = 'https://cdn.glitch.global/a059e0d7-4385-4f92-8298-e568dda5f65d/jocofullinterview41.mp3?v=1727710892368';  // Replace with actual path to the default audio file
+  link.href = 'https://cdn.glitch.global/a059e0d7-4385-4f92-8298-e568dda5f65d/jocofullinterview41.mp3?v=1727710892368';
   link.download = 'default-audio.mp3';
   link.click();
 });
