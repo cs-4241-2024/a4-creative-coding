@@ -1,8 +1,39 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <script src="main.js"></script>
+        <style>
+            button {
+                height: 60px;
+                font-size: xx-large;
+                font-family: cursive;
+            }
+        </style>
     </head>
-    <body style="font-size: 10em; color: chartreuse; font-family: Arial, Helvetica, sans-serif; height: 100%; display: flex; justify-content: center; align-items: center;">
-        TEST
+    <body style="display: flex; flex-direction: row; margin: 0px; padding: 0px;">
+        <div style="width: 20vw; height: 100vh; padding-inline: 16px; background-color: rgb(82, 82, 82);
+        color: white; font-size: xx-large; font-family: cursive; display: flex; flex-direction: column;">
+            <h1 id="title" style="text-align: center;">CANVAS PAINT</h1>
+            <span style="height: 4px; margin-bottom: 16px; background-color: white; border-radius: 4px;"></span>
+            <div style="display: flex; align-items: center; margin-block: 16px;">
+                <label for="color">Color:</label>
+                <input type="color" id="colorPicker" name="color" value="red" style="width: 100%; height: 100%; margin-left: 16px;">
+            </div>
+            <div style="display: flex; align-items: center; margin-block: 16px;">
+                <label for="size">Size:</label>
+                <input type="range" id="size" name="size" min="5" max="100" value="50" step="5" style="width: 100%; height: 100%; margin-left: 16px;"></input>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-evenly;">
+                <label id="radiusNumber" for="preview" style="text-align: center;">Radius: 50px</label>
+                <canvas id="preview" width="200" height="200"></canvas>
+            </div>
+            <span style="height: 4px; margin-block: 16px; background-color: white; border-radius: 4px;"></span>
+            <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-evenly;">
+                <button id="eraser">Eraser: Disabled</button>
+                <button id="fill">Fill Canvas</button>
+                <button id="clear">Clear Canvas</button>
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script src="main.js"></script>
     </body>
 </html>
