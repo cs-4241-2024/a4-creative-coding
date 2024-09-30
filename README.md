@@ -9,7 +9,7 @@ I decided to use Three.js to make a game. Its a sskiing game. In this game you c
 - The goal of this application was to create a 3D game, taking user interaction and inputs.
 - To start the game, click the "Start Game" button. To control the skier use the Left and Right Arrow keys. When the player dies, they will be prompted to enter their name. When entered, their name and score will be save to the Database.
 
-## Implemented Require Functionalities
+## Implemented Required Functionalities
 
 - A server created using Express. (Scores and names are save to it)
 - A client-side interactive experience using Three.JS
