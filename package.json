@@ -1,0 +1,20 @@
+{
+  "name": "threejs-skier-game",
+  "version": "1.0.0",
+  "description": "A 3D skier game built with Three.js and MongoDB for high score tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.0",
+    "mongodb": "^3.6.0",
+    "tweakpane": "^4.0.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [],
+  "author": "Matthew Neuffer",
+  "license": "ISC"
+}
