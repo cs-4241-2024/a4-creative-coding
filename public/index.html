@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <style>
+            input {
+                width: 100%;
+                height: 100%;
+                margin-left: 16px;
+            }
+            span {
+                height: 4px;
+                background-color: white;
+                border-radius: 4px;
+            }
+            button {
+                height: 60px;
+                font-size: xx-large;
+                font-family: cursive;
+            }
+        </style>
+    </head>
+    <body style="display: flex; flex-direction: row; margin: 0px; padding: 0px;">
+        <div style="width: 20vw; height: 100vh; padding-inline: 16px; background-color: rgb(115, 115, 115);
+        color: white; font-size: xx-large; font-family: cursive; display: flex; flex-direction: column;">
+            <h1 id="title" style="text-align: center; color: red;">CANVAS PAINT</h1>
+            <span style="margin-bottom: 16px;"></span>
+            <div style="display: flex; align-items: center; margin-block: 16px;">
+                <label for="color">Color:</label>
+                <input type="color" id="colorPicker" name="color" value="#ff0000">
+            </div>
+            <div style="display: flex; align-items: center; margin-block: 16px;">
+                <label for="size">Size:</label>
+                <input type="range" id="size" name="size" min="5" max="100" value="50" step="5"></input>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <label id="radiusNumber" for="preview" style="text-align: center;">Radius: 50px</label>
+                <canvas id="preview" width="200" height="200"></canvas>
+            </div>
+            <span style="margin-top: 16px;"></span>
+            <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-evenly;">
+                <button id="eraser">Eraser: Disabled</button>
+                <button id="fill">Fill Canvas</button>
+                <button id="clear">Clear Canvas</button>
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script src="main.js"></script>
+    </body>
+</html>
