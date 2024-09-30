@@ -1,0 +1,16 @@
+{
+  "name": "Torus Knot Geo!",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16.20.1"
+  },
+  "description": "A torus knot geometry simulator using threejs & tweakpane for controls",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  },
+  "author": "Gabriel"
+}
