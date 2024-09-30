@@ -1,6 +1,7 @@
 import type { Component } from 'solid-js';
+import Footer from '../components/Footer';
 
-const Home: Component = () => {
+const Year: Component = () => {
   return (
     <>
       <select class="select select-primary w-full max-w-xs">
@@ -11,9 +12,10 @@ const Home: Component = () => {
         <option>2021</option>
         <option>2020</option>
       </select>
-      <p>Home View!</p>
+
+      <Footer />
     </>
   );
 };
 
-export default Home;
+export default Year;
