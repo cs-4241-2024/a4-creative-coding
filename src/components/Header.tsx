@@ -22,7 +22,6 @@ const Header: Component = () => {
   return (
     <div class="navbar bg-neutral">
       <div class="navbar-start">
-
       </div>
       <div class="navbar-center">
         <a onClick={handleBackClick} class="btn btn-ghost text-xl">Voice Diary</a>

@@ -5,7 +5,7 @@ import { Component, lazy } from 'solid-js';
 
 import './index.css';
 import Header from './components/Header';
-// import * as API from './api';
+import * as API from './api';
 
 // Components
 const Year = lazy(() => import('./pages/Year'));
@@ -33,66 +33,12 @@ const Root: Component = (props: { children: any }) => {
   return (<> <Header /> {props.children} </>);
 };
 
-// // Middleware
-// const AuthMiddleware: Component<{ children: any }> = (props) => {
-//   const username = API.getUsername();
-//   if (username === null) {
-//     return <Navigate href="/login" />;
-//   }
-//   return props.children;
-// };
-//
-// const GuestMiddleware: Component<{ children: any }> = (props) => {
-//   const username = API.getUsername();
-//   if (username !== null) {
-//     return <Navigate href="/" />;
-//   }
-//   return props.children;
-// };
-//
-// // Redirect
-// const HomeRedirect: Component = () => {
-//   const username = API.getUsername();
-//   if (username === null) {
-//     return <Navigate href="/login" />;
-//   }
-//   const currentYear = new Date().getFullYear();
-//   return <Navigate href={`/year/${currentYear}`} />;
-// };
-
 // Routes
-// render(() => (
-//   <Router root={Root}>
-//     <Route path="/day/:date" component={() => (
-//         <AuthMiddleware>
-//           <Day />
-//         </AuthMiddleware>
-//       )}
-//       matchFilters={dayFilters}
-//     />
-//
-//     <Route path="/year/:year" component={() => (
-//         <AuthMiddleware>
-//           <Year />
-//         </AuthMiddleware>
-//       )}
-//       matchFilters={yearFilters}
-//     />
-//     <Route path="/login" component={() => (
-//       <GuestMiddleware>
-//         <Auth />
-//       </GuestMiddleware>
-//     )} />
-//     <Route path="/signup" component={() => (
-//       <GuestMiddleware>
-//         <Auth />
-//       </GuestMiddleware>
-//     )} />
-//     <Route path="*" component={HomeRedirect} />
-//   </Router>
-// ), document.getElementById('root')!);
 render(() => (
   <Router root={Root}>
+    <Route path="/day/:date" component={Day} matchFilters={dayFilters} />
+    <Route path="/year/:year" component={Year} matchFilters={yearFilters} />
     <Route path="/login" component={Auth} />
+    <Route path="/signup" component={Auth} />
   </Router>
 ), document.getElementById('root')!);

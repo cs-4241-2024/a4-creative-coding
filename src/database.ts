@@ -1,10 +1,7 @@
 "use server";
 
-import Database from "better-sqlite3";
-import { randomBytes, pbkdf2Sync } from "crypto";
-import { promises as fs } from "fs";
-import path from "path";
-import { getAudioDurationInSeconds } from "get-audio-duration";
+// Remove all top-level imports except for types
+import type Database from "better-sqlite3";
 
 // -- DATABASE --
 
@@ -12,6 +9,7 @@ let dbInstance: Database.Database | null = null;
 
 function getDb() {
   if (!dbInstance) {
+    const Database = require("better-sqlite3");
     dbInstance = new Database("data.db");
     makeTables(dbInstance);
   }
@@ -41,10 +39,10 @@ function makeTables(db: Database.Database) {
 
 // -- USER --
 
-/** returns userID if successful, otherwise null */
 export async function makeUser(username: string, password: string): Promise<number | null> {
-  const salt = generateSalt();
-  const passwordHash = hashPassword(password, salt);
+  const { randomBytes, pbkdf2Sync } = require("crypto");
+  const salt = randomBytes(16).toString("hex");
+  const passwordHash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
 
   const stmt = getDb().prepare(
     "INSERT INTO users (username, password_hash, salt) VALUES (?, ?, ?)",
@@ -54,8 +52,8 @@ export async function makeUser(username: string, password: string): Promise<numb
   return Number(result.lastInsertRowid);
 }
 
-/** returns userID if successful, otherwise null */
 export async function tryLogin(username: string, password: string): Promise<number | null> {
+  const { pbkdf2Sync } = require("crypto");
   const stmt = getDb().prepare(
     "SELECT id, password_hash, salt FROM users WHERE username = ?",
   );
@@ -63,25 +61,16 @@ export async function tryLogin(username: string, password: string): Promise<numb
     | { id: number; password_hash: string; salt: string }
     | undefined;
 
-  if (user && hashPassword(password, user.salt) === user.password_hash) {
+  if (user && pbkdf2Sync(password, user.salt, 1000, 64, "sha512").toString("hex") === user.password_hash) {
     return user.id;
   }
   return null;
 }
 
-/** userID -> username */
 export async function getUsername(userID: number): Promise<string | null> {
   const stmt = getDb().prepare("SELECT username FROM users WHERE id = ?");
   const result = stmt.get(userID) as { username: string } | undefined;
   return result ? result.username : null;
-}
-
-function generateSalt(): string {
-  return randomBytes(16).toString("hex");
-}
-
-function hashPassword(password: string, salt: string): string {
-  return pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
 }
 
 // -- RECORDINGS --
@@ -91,6 +80,10 @@ export async function saveRecording(
   mp3File: Buffer,
   datetime?: Date,
 ): Promise<number | null> {
+  const path = require("path");
+  const fs = require("fs").promises;
+  const { getAudioDurationInSeconds } = require("get-audio-duration");
+
   try {
     // Find the length
     const tempFilePath = path.join("temp", `${userID}_${Date.now()}.mp3`);
@@ -124,6 +117,9 @@ export async function deleteRecording(
   userID: number,
   id: number,
 ): Promise<boolean> {
+  const path = require("path");
+  const fs = require("fs").promises;
+
   try {
     // Check userID == recording.userID
     const stmt = getDb().prepare("SELECT user_id FROM recordings WHERE id = ?");
