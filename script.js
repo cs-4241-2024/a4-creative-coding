@@ -47,9 +47,6 @@ pane.addBlade({
   value: settings.speed,
 }).on("change", (ev) => {
   settings.speed = ev.value;
-  if (audioElement) {
-    audioElement.playbackRate = settings.speed; // Adjust the playback rate of the audio
-  }
 });
 
 pane.addBlade({
@@ -133,7 +130,6 @@ document.getElementById("startBtn").addEventListener("click", () => {
   if (audioFile) {
     audioElement = new Audio(URL.createObjectURL(audioFile));
     audioElement.play();
-    audioElement.playbackRate = settings.speed;  // Set the initial speed based on slider value
     isPlaying = true;
     isPaused = false;
     startVisualization();
@@ -153,7 +149,6 @@ document.getElementById("pauseBtn").addEventListener("click", () => {
 document.getElementById("playBtn").addEventListener("click", () => {
   if (isPaused) {
     audioElement.play();
-    audioElement.playbackRate = settings.speed;  // Apply speed when resuming playback
     isPlaying = true;
     startVisualization();
   }
@@ -161,7 +156,7 @@ document.getElementById("playBtn").addEventListener("click", () => {
 
 document.getElementById("downloadBtn").addEventListener("click", () => {
   const link = document.createElement("a");
-  link.href = '/default-audio.mp3';  // Replace with actual path to the default audio file
+  link.href = 'https://cdn.glitch.global/a059e0d7-4385-4f92-8298-e568dda5f65d/jocofullinterview41.mp3?v=1727710892368';  // Replace with actual path to the default audio file
   link.download = 'default-audio.mp3';
   link.click();
 });
