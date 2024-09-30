@@ -1,0 +1,27 @@
+* {
+    font-family: "Space Mono", monospace;
+}
+body {
+    margin: 0;
+    background-color: #94A6A2;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    font-size: large;
+}
+
+button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #F1EDD0;
+}
+
+.selection {
+    margin-left: 30px;
+    display: inline-flex;
+}
