@@ -15,7 +15,6 @@ canvas {
     text-align: center;
 }
 
-
 .toolbar {
     order: -1;
     background-color: #ece9d8;
@@ -29,4 +28,13 @@ canvas {
     display: flex;
     gap: 10px;
 }
+
+.colorBar {
+    button {
+        border: 1px solid #333;
+        margin: 0 0 5px 5px;
+        padding: 1em;
+        cursor: pointer;
+    }
+  }
 

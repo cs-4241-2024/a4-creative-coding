@@ -1,3 +1,23 @@
+//color palettes
+let palette1 = ["#DEC0AE", "#D4949D", "#5C63A4", "#8B7FAC", "#ACB0CC"];
+
+let strokeColor = palette1[0];
+
+function makePalette(c) {
+    const colorBar = document.querySelector('.colorBar');
+    for (var i = 0; i < c.length; i++) {
+      const button = document.createElement('button');
+      button.value = c[i];
+      button.onclick = updateColor;
+      button.style = `background-color: ${c[i]}`;
+      colorBar.appendChild(button);
+    }
+};
+
+function updateColor(e) {
+    strokeColor = e.target.value; 
+}
+
 window.onload = () => {
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
@@ -28,6 +48,11 @@ window.onload = () => {
         lineWidth = e.target.value;
     });
 
+    //make color palette
+    makePalette(palette1);
+
+    
+
     //start drawing
     canvas.addEventListener('mousedown', (e) => {
         drawing = true;
@@ -53,7 +78,7 @@ window.onload = () => {
 
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000000';
+        ctx.strokeStyle = strokeColor;
 
         ctx.lineTo(x, y);
         ctx.stroke();
@@ -61,3 +86,6 @@ window.onload = () => {
         ctx.moveTo(x, y);
     }
 };
+
+
+  
