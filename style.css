@@ -1,0 +1,117 @@
+body {
+    background: #E6E6FA;
+    display: flex;
+    align-items: center;
+  }
+  .ukelele {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #leftBody, #rightBody {
+    background: #998235;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+  }
+  
+  #leftBody > div {
+    width: 20px;
+    height: 80px;
+    background: #1A4341;
+    border-radius: 10px;
+    translate: -30px;
+  }
+  
+  #rightBody > div {
+    height: 80px;
+    width: 80px;
+    background: #1A4341;
+    border-radius: 50%;
+    border: 10px solid #F3AC3C;
+  }
+  
+  #leftBody {
+    width: 240px;
+    height: 240px;
+    translate: 40px;
+  }
+  
+  #rightBody {
+    width: 200px;
+    height: 200px;
+    translate: -26px;
+  }
+  
+  #neck {
+    width: 200px;
+    height: 50px;
+    background: #1A4341;
+    translate: -50px;
+  }
+  
+  #headstock {
+    width: 80px;
+    height: 80px;
+    background: #998235;
+    border-radius: 20px;
+    translate: -50px;
+    display: grid;
+    place-content: center;
+    gap: 12px;
+  }
+  
+  #headstock > div {
+    width: 40px;
+    height: 8px;
+    background: #1A4341;
+    border-radius: 4px;
+  }
+  
+  .uStrings {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 5px;
+    font-size: 10px;
+    
+  }
+  .uStrings .string span {
+    position: absolute;
+    bottom: 20px; 
+    translate: 0 21px; 
+    width: 100%;
+    text-align: center;
+    color: grey;
+  }
+  
+  .string{
+    width: 500px;
+    height: 10px;
+    border-radius: 8px;
+    border: 1px solid black;
+    background: white;
+    translate: -300px -17px;
+  
+  }
+  
+  .uStrings .string {
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    text-transform: uppercase;
+  }
+  
+  .string.active {
+    box-shadow: inset -5px 5px 20px rgba(0,0,0,0.2);
+    background:linear-gradient(to bottom, #ffffff 0%, #eeeeee 100%);
+  }
+  .uStrings .string.hide span {
+    display: none;
+  }
+  .hide label {
+    display: none;
+  }
