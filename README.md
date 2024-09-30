@@ -7,3 +7,5 @@ This app uses an express server and tweakpane to allow for user interaction. I f
 tweakpane documentation but other than that it was fairly smooth sailing!
 
 The application has four user-interactive fields which control the width of the frequency bars, an amplitude magnifier, an invert option, and a color selector. The color selector was made with HTML instead of using tweakpane.
+
+Note: this should work for any audio file, but I've included the one I used in this repo.
