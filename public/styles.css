@@ -1,24 +1,95 @@
+html, body {
+    margin: 0;
+    width: 100%;
+}
+
 body {
-    border: 3px solid #0054e8;
     background-color: #ece9d8;
     font-family: "Pixelify Sans", sans-serif;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #0159ef;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    color: #e0ffff;
+    margin-left: 0.5em;
+}
+
+h3 {
+    margin-left: 0.3em;
+}
+
+.funcBar {
+    display: flex;
+    align-items: center;
+    border: 2px solid #aaaba3;
+    padding: 0.2em 0.5em;
+    max-height: 2em;
+    margin: 0;
+}
+
 canvas {
     border: 5px solid #87847f;
-    
     background-color: #ffffff;
 }
 
-.icon{
+.icon {
     height: 2em;
     margin: auto;
-    text-align: center;
+    text-align: center; 
+    padding: 2px;
 }
 
-.toolbar {
+.decoBtns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    gap: 0.2em; 
+    margin: 0.2em;
+}
+
+.decoBtns button {
+    background-color: #4671f3; 
+    border: 1px solid #ece9d8;
+    min-width: 2.5em; 
+    min-height: 2.5em;
+    cursor: pointer;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0; 
+}
+
+.decoBtns .deco2 {
+    background-color: #a55033; 
+}
+
+.decoBtns button img {
+    width: 1em; 
+    height: 1em; 
+    pointer-events: none; 
+}
+
+.active {
+    background-color: #a19f97;
+}
+
+.toolBar {
+    display: flex;
+    flex-direction: column;
     order: -1;
     background-color: #ece9d8;
+    gap: 0.5em;
+    border: 2px solid #aaaba3;
+    padding: 0.5em;
 }
 
 .canvas {
@@ -28,14 +99,19 @@ canvas {
 .interactive {
     display: flex;
     gap: 10px;
+    margin-left: 1em;
+    margin-top: 1em;
 }
 
 .colorBar {
+    border: 2px solid #aaaba3;
+    margin-left: 1em;
+    margin-top: 1em;
+    padding: 0.5em;
     button {
         border: 1px solid #333;
-        margin: 0 0 5px 5px;
+        margin: 5px;
         padding: 1em;
         cursor: pointer;
     }
   }
-

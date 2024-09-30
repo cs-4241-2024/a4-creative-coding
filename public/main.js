@@ -29,6 +29,7 @@ window.onload = () => {
     const drawBtn = document.getElementById('drawBtn');
     const clearBtn = document.getElementById('clearBtn');
     const downloadBtn = document.getElementById('downloadBtn');
+    const toolBarButtons = document.querySelectorAll('.toolBar button');
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -39,6 +40,15 @@ window.onload = () => {
 
     //set default line thickness
     let lineWidth = 2;
+
+    // Add event listeners to each button
+    toolBarButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            toolBarButtons.forEach(btn => btn.classList.remove('active'));
+            
+            button.classList.add('active');
+        });
+    });    
 
     //toggles slider visibility
     toggleSliderBtn.addEventListener('click', () => {
