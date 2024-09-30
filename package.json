@@ -1,0 +1,13 @@
+{
+    "name": "audio-visualizer",
+    "version": "1.0.0",
+    "description": "MP3 audio visualizer with file upload and customization",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.21.0",
+      "multer": "^1.4.3"
+    }
+  }

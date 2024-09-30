@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Visualizer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>MP3 Audio Visualizer</h1>
+      <p>Select an MP3 file or download the default audio and customize the visualizer settings.</p>
+
+      <button id="downloadBtn">Download Default Audio</button>
+      <input type="file" id="audioFile" accept="audio/mp3" />
+
+      <canvas id="visualizerCanvas"></canvas>
+
+      <div class="controls">
+        <button id="startBtn">Start Visualization</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="playBtn">Play</button>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
