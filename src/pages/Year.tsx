@@ -6,11 +6,14 @@ const Year: Component = () => {
     <>
       <select class="select select-primary w-full max-w-xs">
         <option disabled>Year</option>
-        <option>2024</option>
-        <option>2023</option>
-        <option>2022</option>
-        <option>2021</option>
-        <option>2020</option>
+        {(() => {
+          const currentYear = new Date().getFullYear();
+          const years = [];
+          for (let year = currentYear; year >= 2020; year--) {
+            years.push(<option>{year}</option>);
+          }
+          return years;
+        })()}
       </select>
 
       <Footer />
