@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Audio Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Interactive Audio Visualizer</h1>
+    <div class="controls">
+        <label>
+            Bar Width:
+            <input type="range" id="bar-width" min="1" max="50" value="10">
+        </label>
+        <label>
+            Bar Height Multiplier:
+            <input type="range" id="bar-height" min="1" max="500" value="100">
+        </label>
+        <label>
+            Color Hue:
+            <input type="range" id="bar-color" min="0" max="360" value="200">
+        </label>
+        <label>
+            Speed:
+            <input type="range" id="speed" min="1" max="10" value="5">
+        </label>
+    </div>
+    <canvas id="visualizer"></canvas>
+
+    <audio id="audio" src="audio/FRED.mp3" controls></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
