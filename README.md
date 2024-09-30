@@ -1,6 +1,7 @@
 ## Torus Knot Geo!
 
-**GLITCH LINK**
+**GLITCH:** a4-gabriel-curet-irizarry.glitch.me
+
 
 This application is a Torus Knot simulator where we can edit its geometry. It makes use of Three.js for the shape geometry and rendering of the shape. It also makes use of Tweakpane for the controls of the simulator wich are connected to the parameters of the shape generated it shape. Besides controling the shapes geometry with the twekpane panel you can also change the colore of the shape and the speed in wich it rotates in both axes. 
 
