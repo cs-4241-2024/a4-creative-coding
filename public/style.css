@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+#header {
+    border-bottom: solid black 3px;
+    padding-bottom: 4px;
+    font-weight: 400;
+    text-align: center;
+}
+
+#visualization {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+#pieChart, #scatterPlot {
+    flex: 1;
+    padding: 10px;
+    height: 100%;
+}
+
+svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#forceGraph {
+    padding: 20px;
+    margin-top: 20px;
+    border-top: 2px solid black;
+}
