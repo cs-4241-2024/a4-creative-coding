@@ -27,6 +27,7 @@ window.onload = () => {
     const lineThicknessSlider = document.getElementById('lineThicknessSlider');
     const eraserBtn = document.getElementById('eraserBtn');
     const drawBtn = document.getElementById('drawBtn');
+    const clearBtn = document.getElementById('clearBtn');
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -52,13 +53,20 @@ window.onload = () => {
         lineWidth = e.target.value;
     });
 
+    //erase strokes on canvas
     eraserBtn.addEventListener('click', () => {
         ctx.globalCompositeOperation = 'destination-out';
     });
 
+    //switch to drawing mode
     drawBtn.addEventListener('click', () => {
         ctx.globalCompositeOperation = 'source-over';
     });
+
+    //clear the canvas
+    clearBtn.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    })
 
     //make color palette
     makePalette(palette1);

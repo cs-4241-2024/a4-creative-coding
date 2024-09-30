@@ -1,6 +1,7 @@
 body {
     border: 3px solid #0054e8;
     background-color: #ece9d8;
+    font-family: "Pixelify Sans", sans-serif;
 }
 
 canvas {
