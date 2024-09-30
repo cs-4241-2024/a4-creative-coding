@@ -1,0 +1,41 @@
+body {
+    background: lightblue;
+    color:blue;
+    font-family: 'Roboto', sans-serif;
+  }
+  p {
+    font-size: 20px;
+    color: blue;
+  }
+  
+  th {
+    border-width: 5px;
+    border-color: blue;
+    border-style: solid;
+    font-family: 'Roboto', sans-serif;
+  }
+  .main-title {
+    font-size: 20px;
+    color: purple;
+    font-family: 'Roboto', sans-serif;
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: greenyellow;
+  }
+  .flex-container > div {
+    background-color: orange;
+    padding: 10px;
+    width: wrap;
+    margin: 30px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+  }
+  button.modify{
+    justify-content: right;
+    size: 25px;
+    
+  }
