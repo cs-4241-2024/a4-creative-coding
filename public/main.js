@@ -28,6 +28,7 @@ window.onload = () => {
     const eraserBtn = document.getElementById('eraserBtn');
     const drawBtn = document.getElementById('drawBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -68,6 +69,17 @@ window.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     })
 
+    //download the drawing as an image
+    downloadBtn.addEventListener('click', () => {
+        const fileName = getFileName();
+        let canvasURL = canvas.toDataURL("image/jpeg", 0.5);
+        const createFile = document.createElement('a');
+        createFile.href = canvasURL;
+        createFile.download = fileName;
+        createFile.click();
+        createFile.remove();
+    })
+
     //make color palette
     makePalette(palette1);
 
@@ -105,5 +117,18 @@ window.onload = () => {
     }
 };
 
+//prompts user for file name and converts it to comp friendly string
+function getFileName() {
+    let fileName = prompt("Please enter a name for your file:");
 
+    if (fileName == null || fileName == "") {
+        console.log("User cancelled the prompt.");
+        return;
+    } else {
+        fileName = fileName.split(' ').join('_');
+        console.log(fileName);
+    }
+
+    return fileName;
+}
   
