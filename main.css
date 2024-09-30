@@ -1,0 +1,28 @@
+
+/* element selectors */
+
+body {
+  background:lightblue;
+  color:black;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-family: "Gill Sans", sans-serif;
+}
+
+
+
+
+/* class selectors selector, font definition */
+.title {
+    font-family: "Gill Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    }
+
+
+.nunito {
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    }

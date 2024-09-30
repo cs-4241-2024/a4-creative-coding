@@ -1,0 +1,20 @@
+{
+  "name": "a4-aekratman",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm run build && node server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "engines": {
+    "node": "16.20.1"
+  },
+  "dependencies": {
+    "three": "^0.150.0",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "vite": "^4.5.5"
+  }
+}
