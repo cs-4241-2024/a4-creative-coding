@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sophia's Ukulele</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="a4 project" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="column volume-slider">
+          <span> Volume </span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            value=".5"
+            step="any"
+            id="volume-con"
+          />
+        </div>
+      <div class="column strings-checkbox">
+          <span> Show Strings </span>
+          <input type="checkbox" checked />
+      </div>
+      <div class = "ukelele">
+        <div id="leftBody">
+          <div></div>
+        </div>
+        <div id="rightBody">
+          <div></div>
+        </div>
+        <div id="neck">
+          <ul class="uStrings">
+            <li class="string" data-string="G">
+              <span>G</span>
+            </li>
+            <li class="string" data-string="C">
+              <span>C</span>
+            </li>
+            <li class="string" data-string="E">
+              <span>E</span>
+            </li>
+            <li class="string" data-string="A">
+              <span>A</span>
+          </li>
+      </ul>
+        </div>
+        <div id="headstock">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
