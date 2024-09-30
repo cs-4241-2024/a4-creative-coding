@@ -44,8 +44,6 @@ body {
     width: 200px;
     height: 200px;
     translate: -26px;
-  /*   z-index: 1;
-    position: relative; */
   }
   
   #neck {
@@ -60,11 +58,10 @@ body {
     height: 80px;
     background: #998235;
     border-radius: 20px;
-    translate: -46px;
+    translate: -50px;
     display: grid;
     place-content: center;
     gap: 12px;
-    
   }
   
   #headstock > div {
@@ -98,6 +95,7 @@ body {
     border: 1px solid black;
     background: white;
     translate: -300px -17px;
+  
   }
   
   .uStrings .string {
