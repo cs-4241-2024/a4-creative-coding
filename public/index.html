@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title class="main-title">Grocery List</title>
+    <meta charset="utf-8">
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- get rid of favicon error -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <body>
+    <div class="flex-container">
+      <div>
+    <form>
+      <input type="text" id="item" class="main-title" placeholder="item name">
+      <input type="text" id="description" class="main-title" placeholder="item description">
+      <input type="number" id="cost" class="main-title" placeholder="price">
+      <input type="number" id="tax" class="main-title" placeholder="tax (percent)">
+      <button>submit</button>
+      
+    </form>
+    
+  </div>
+  <div> 
+    <table id="list">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Subtotal</th>
+        <th>Tax</th>
+        <th>Total</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      </thead>
+      </table>
+    </div>
+  </div>
+      
+  </body>
+</html>
