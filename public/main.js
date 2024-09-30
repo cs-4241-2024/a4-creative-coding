@@ -1,6 +1,8 @@
 window.onload = () => {
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
+    const toggleSliderBtn = document.getElementById('toggleLineThicknessBtn');
+    const lineThicknessSlider = document.getElementById('lineThicknessSlider');
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -8,6 +10,23 @@ window.onload = () => {
 
     //track whether drawing or not
     let drawing = false;
+
+    //set default line thickness
+    let lineWidth = 2;
+
+    //toggles slider visibility
+    toggleSliderBtn.addEventListener('click', () => {
+        if(lineThicknessSlider.style.display === 'none') {
+            lineThicknessSlider.style.display = 'block';
+        } else {
+            lineThicknessSlider.style.display = 'none';
+        }
+    });
+
+    //update line width to slider value
+    lineThicknessSlider.addEventListener('input', (e) => {
+        lineWidth = e.target.value;
+    });
 
     //start drawing
     canvas.addEventListener('mousedown', (e) => {
@@ -32,7 +51,7 @@ window.onload = () => {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        ctx.lineWidth = 2;
+        ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
         ctx.strokeStyle = '#000000';
 

@@ -1,17 +1,32 @@
-canvas {
-    border: 1px solid black;
-    
-    background-color: wheat;
+body {
+    border: 3px solid #0054e8;
+    background-color: #ece9d8;
 }
 
-/*
+canvas {
+    border: 5px solid #87847f;
+    
+    background-color: #ffffff;
+}
+
+.icon{
+    height: 2em;
+    margin: auto;
+    text-align: center;
+}
+
+
 .toolbar {
-    border: 1px solid black;
-    background-color: antiquewhite;
+    order: -1;
+    background-color: #ece9d8;
+}
+
+.canvas {
+    order: 1;
 }
 
 .interactive {
     display: flex;
     gap: 10px;
 }
-*/
+
