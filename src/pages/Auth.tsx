@@ -1,6 +1,5 @@
 import type { Component } from 'solid-js';
 import { useLocation } from '@solidjs/router';
-import { login, signup } from '../api';
 
 const Auth: Component = () => {
   const location = useLocation();
@@ -9,7 +8,7 @@ const Auth: Component = () => {
   return (
     <div class="flex justify-center py-12">
       <div class="mt-6 font-bold card w-96 mt-20 mb-20 shadow-xl">
-        <form class="card-body" action={isSignup() ? signup : login}>
+        <form class="card-body">
           <h2 class="mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
             {isSignup() ? "Sign Up" : "Login"}
           </h2>

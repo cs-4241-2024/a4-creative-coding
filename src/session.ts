@@ -1,3 +1,5 @@
+"use server";
+
 import { useSession } from "vinxi/http";
 
 //Docs: https://docs.solidjs.com/solid-start/advanced/session#sessions
