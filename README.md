@@ -2,7 +2,7 @@
 
 ## Three.Js Ski Game
 
-https://a4-mkneuffer.glitch.me/
+[https://a4-mkneuffer.glitch.me/](https://a4-matthew-neuffer.glitch.me/)
 
 I decided to use Three.js to make a game. Its a sskiing game. In this game you controll a skier as they go down hill, you have to use the arrow keys to avoid the trees. If you hit a tree, its game over. The goal is to survive as long a possible in order to get the high score. All scores are saved to the server and database. The highscore is displayed in the top right of the screen.
 
