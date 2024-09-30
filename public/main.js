@@ -3,6 +3,7 @@ let palette1 = ["#DEC0AE", "#D4949D", "#5C63A4", "#8B7FAC", "#ACB0CC"];
 
 let strokeColor = palette1[0];
 
+//generate a limited color bar based on predefined color palette
 function makePalette(c) {
     const colorBar = document.querySelector('.colorBar');
     for (var i = 0; i < c.length; i++) {
@@ -14,6 +15,7 @@ function makePalette(c) {
     }
 };
 
+//update stroke color
 function updateColor(e) {
     strokeColor = e.target.value; 
 }
@@ -23,6 +25,8 @@ window.onload = () => {
     const ctx = canvas.getContext('2d');
     const toggleSliderBtn = document.getElementById('toggleLineThicknessBtn');
     const lineThicknessSlider = document.getElementById('lineThicknessSlider');
+    const eraserBtn = document.getElementById('eraserBtn');
+    const drawBtn = document.getElementById('drawBtn');
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -48,10 +52,16 @@ window.onload = () => {
         lineWidth = e.target.value;
     });
 
+    eraserBtn.addEventListener('click', () => {
+        ctx.globalCompositeOperation = 'destination-out';
+    });
+
+    drawBtn.addEventListener('click', () => {
+        ctx.globalCompositeOperation = 'source-over';
+    });
+
     //make color palette
     makePalette(palette1);
-
-    
 
     //start drawing
     canvas.addEventListener('mousedown', (e) => {
