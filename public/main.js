@@ -1,7 +1,18 @@
 //color palettes
 let palette1 = ["#DEC0AE", "#D4949D", "#5C63A4", "#8B7FAC", "#ACB0CC"];
+let palette2 = ["#9B7D61", "#DAA38F", "#E9D7C0", "#92ADA4", "#FED8A6"];
+let palette3 = ["#914E56", "#4D303F", "#E6D389", "#2F2A35", "#F8E8CC"];
+let palette4 = ["#F6724B", "#FC8A55", "#8F4E51", "#2B3349", "#223C63"];
+let palette5 = ["#8b5a91", "#bf83b9", "#f4f0e5", "#fbd3dc", "#a24c71", "#f28290"];
+let palette6 = ["#edd5c0", "#b3d9e0", "#92ada4", "#f2d6a1", "#f1a805"];
+let palette7 = ["#87A680", "#f7e9de", "#db3e1c", "#4f364b", "#cabad8"];
+let palette8 = ["#3B395D", "#9085BC", "#F2CBE0", "#CB6D9A", "#8F477B"];
+let palette9 = ["#914E56", "#4D303F", "#E6D389", "#2F2A35", "#F8E8CC"];
+let palette10 = ["#0F0000", "#440000", "#6E1313", "#F4B3B3", "#002028"];
+let paletteDirectory = [palette1, palette2, palette3, palette4, palette5, palette6, palette7, palette8, palette9, palette10];
 
-let strokeColor = palette1[0];
+let currentPalette = '';
+let strokeColor = currentPalette[0];
 
 //generate a limited color bar based on predefined color palette
 function makePalette(c) {
@@ -20,6 +31,13 @@ function updateColor(e) {
     strokeColor = e.target.value; 
 }
 
+//randomize color palette
+function randomPalette() {
+    const randInt = Math.floor(Math.random() * paletteDirectory.length);
+    currentPalette = paletteDirectory[randInt];
+    console.log(currentPalette);
+}
+
 window.onload = () => {
     const canvas = document.getElementById('drawingCanvas');
     const ctx = canvas.getContext('2d');
@@ -30,6 +48,9 @@ window.onload = () => {
     const clearBtn = document.getElementById('clearBtn');
     const downloadBtn = document.getElementById('downloadBtn');
     const toolBarButtons = document.querySelectorAll('.toolBar button');
+
+    randomPalette();
+    
 
     //set canvas size
     canvas.width = window.innerWidth * 0.9;
@@ -91,7 +112,7 @@ window.onload = () => {
     })
 
     //make color palette
-    makePalette(palette1);
+    makePalette(currentPalette);
 
     //start drawing
     canvas.addEventListener('mousedown', (e) => {
