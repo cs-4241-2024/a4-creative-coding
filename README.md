@@ -47,7 +47,7 @@ Do the following to complete this assignment:
 5. Fork this repository and modify the README to the specifications below. *NOTE: If you don't use Glitch for hosting (where we can see the files) then you must include all project files that you author in your repo for this assignment*.
 6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a4-firstname-lastname`.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
+Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions) ahaha
 ---
 
 ## Your Web Application Title
