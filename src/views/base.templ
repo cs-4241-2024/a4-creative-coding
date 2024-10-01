@@ -1,0 +1,43 @@
+package views
+
+templ Base(contents templ.Component, hasUsername bool, username string) {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice Diary</title>
+  <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+  <link href="/assets/output.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="navbar bg-neutral" style="padding-left: 16px; padding-right: 8px;">
+    <div class="navbar-start">
+      if hasUsername {
+        { username }
+      }
+    </div>
+    <div class="navbar-center">
+      <a href="../../" class="btn btn-ghost text-xl">Voice Diary</a>
+    </div>
+    <div class="navbar-end">
+        if hasUsername {
+        <div>
+          <form action="/logout" method="POST">
+            <button class="btn" type="submit">
+              Logout
+            </button>
+          </form>
+        </div>
+        }
+    </div>
+  </div>
+  <div>
+    @contents
+  </div>
+</body>
+
+</html>
+}

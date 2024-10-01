@@ -1,0 +1,141 @@
+package views
+
+import "time"
+
+templ Recorder(date time.Time) {
+	<div>
+		<div
+			id="recording-timer"
+			class="fixed bottom-20 left-0 right-0 bg-neutral p-2 flex justify-center items-center overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0"
+		>
+			<span class="text-white font-mono" id="timer">00:00:00</span>
+		</div>
+		<div class="fixed bottom-0 left-0 right-0 bg-neutral p-3 flex justify-center items-center">
+			<button
+				id="record-button"
+				class="w-14 h-14 rounded-full border-2 border-white p-1 flex items-center justify-center"
+				onclick="toggleRecording()"
+			>
+				<div id="record-button-inner" class="w-10 h-10 rounded-full bg-red-500 transition-all duration-200"></div>
+			</button>
+		</div>
+	</div>
+	@templ.JSONScript("date", date.Format("2006-01-02"))
+	<script type="text/javascript">
+  let isRecording = false;
+  let startTime;
+  let timerInterval;
+  let mediaRecorder;
+  let audioChunks = [];
+
+  function toggleRecording() {
+    isRecording ? stopRecording() : startRecording();
+  }
+
+  function updateUI() {
+    const timerElement = document.getElementById('recording-timer');
+    const innerButton = document.getElementById('record-button-inner');
+
+    if (isRecording) {
+      timerElement.classList.remove('max-h-0', 'opacity-0');
+      timerElement.classList.add('max-h-20', 'opacity-100');
+      innerButton.classList.remove('w-10', 'h-10', 'rounded-full');
+      innerButton.classList.add('w-5', 'h-5', 'rounded-sm');
+      startTimer();
+    } else {
+      timerElement.classList.remove('max-h-20', 'opacity-100');
+      timerElement.classList.add('max-h-0', 'opacity-0');
+      innerButton.classList.remove('w-5', 'h-5', 'rounded-sm');
+      innerButton.classList.add('w-10', 'h-10', 'rounded-full');
+      stopTimer();
+    }
+  }
+
+  function startTimer() {
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 10);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    document.getElementById('timer').textContent = '00:00:00';
+  }
+
+  function updateTimer() {
+    const elapsedTime = Date.now() - startTime;
+    document.getElementById('timer').textContent = formatDuration(elapsedTime);
+  }
+
+  function formatDuration(duration) {
+    const pad = num => num.toString().padStart(2, '0');
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.floor((duration % 60000) / 1000);
+    const centiseconds = Math.floor((duration % 1000) / 10);
+    return `${pad(minutes)}:${pad(seconds)}:${pad(centiseconds)}`;
+  }
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, {type: 'audio/wav'});
+        sendAudioToServer(audioBlob);
+        audioChunks = [];
+      };
+
+      mediaRecorder.start();
+      isRecording = true;
+      updateUI();
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  }
+
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+      isRecording = false;
+      updateUI();
+    }
+  }
+
+  async function sendAudioToServer(audioBlob) {
+    try {
+      const formData = new FormData();
+      formData.append('file', audioBlob, 'recording.wav');
+
+      //use provided date, and current time (local)
+      const dateStr = JSON.parse(document.getElementById('date').textContent);
+      const providedDate = new Date(dateStr + "T00:00:00");
+      const now = new Date();
+      now.setFullYear(providedDate.getFullYear());
+      now.setMonth(providedDate.getMonth());
+      now.setDate(providedDate.getDate());
+      const formattedDatetime = now.toISOString();
+
+      formData.append('datetime', formattedDatetime);
+
+      const response = await fetch('/save', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Recording saved successfully');
+        window.location.reload();
+      } else {
+        const errorText = await response.text();
+        console.error('Failed to save recording:', response.status, errorText);
+      }
+    } catch (error) {
+      console.error('Error sending audio to server:', error);
+    }
+  }
+</script>
+}

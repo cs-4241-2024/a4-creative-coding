@@ -1,0 +1,55 @@
+package views
+
+templ Auth(is_signup bool) {
+<div class="flex justify-center py-12">
+  <div class="mt-6 font-bold card w-96 mt-20 mb-20 shadow-xl">
+    <form class="card-body" method="POST"
+    if is_signup {
+    action="/signup"
+    } else {
+    action="/login"
+    }
+    >
+      <h2 class="mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
+        if is_signup {
+        Sign Up
+        } else {
+        Login
+        }
+      </h2>
+      if is_signup {
+      <a class="mt-3 link text-center" href="/login">
+        ← Login
+      </a>
+      } else {
+      <a class="mt-3 link text-center" href="/signup">
+        Sign Up →
+      </a>
+      }
+      <div class="items-center mt-2 space-y-3">
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Username</span>
+          </div>
+          <input class="input input-bordered w-full max-w-xs" id="username" name="username" type="text" placeholder="Username" />
+        </label>
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Password</span>
+          </div>
+          <input class="input input-bordered w-full max-w-xs" id="password" name="password" type="password" placeholder="Password" />
+        </label>
+      </div>
+      <div class="card-actions justify-end mt-4">
+        <button class="btn btn-active w-full" type="submit">
+          if is_signup {
+          Sign Up
+          } else {
+          Login
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
