@@ -1,14 +1,16 @@
-import type { Component } from 'solid-js';
-import { useLocation } from '@solidjs/router';
+import { Show, type Component } from 'solid-js';
+import { useLocation, useSubmission } from '@solidjs/router';
+import { login, register } from '~/lib';
 
 const Auth: Component = () => {
   const location = useLocation();
   const isSignup = () => location.pathname === "/signup";
+  const loggingIn = useSubmission(isSignup() ? login : register);
 
   return (
     <div class="flex justify-center py-12">
       <div class="mt-6 font-bold card w-96 mt-20 mb-20 shadow-xl">
-        <form class="card-body">
+        <form class="card-body" action={isSignup() ? login : register} method="post">
           <h2 class="mt-10 text-center text-4xl font-bold leading-9 tracking-tight">
             {isSignup() ? "Sign Up" : "Login"}
           </h2>
@@ -34,6 +36,11 @@ const Auth: Component = () => {
               {isSignup() ? "Sign Up" : "Login"}
             </button>
           </div>
+          <Show when={loggingIn.result}>
+            <p style={{ color: "red" }} role="alert" id="error-message">
+              {loggingIn.result!.message}
+            </p>
+          </Show>
         </form>
       </div>
     </div>
