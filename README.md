@@ -23,11 +23,11 @@ times (will be added in the future tho).
 
 ## Screenshots
 
-[Login](screenshots/login.png)
-[Month](screenshots/month.png)
-[Empty Day](screenshots/day_empty.png)
-[Recording](screenshots/day_recording.png)
-[Full Day](screenshots/day_full.png)
+![Login](screenshots/login.png | width=100)
+![Month](screenshots/month.png | width=100)
+![Empty Day](screenshots/day_empty.png | width=100)
+![Recording](screenshots/day_recording.png | width=100)
+![Full Day](screenshots/day_full.png | width=100)
 
 ## Development
 
