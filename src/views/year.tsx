@@ -2,17 +2,21 @@ import type { Component } from 'solid-js';
 import Footer from './components/footer';
 import { createAsync, RouteDefinition } from '@solidjs/router';
 import { getUser } from '~/lib';
+import Header from './components/header';
 
-export const route = {
-  preload() { getUser() }
-} satisfies RouteDefinition;
+// export const route = {
+//   preload() { getUser() }
+// } satisfies RouteDefinition;
 
 
 const Year: Component = () => {
-  const user = createAsync(() => getUser(), { deferStream: true });
+  // const user = createAsync(() => getUser(), { deferStream: true });
+  const user = createAsync(() => getUser());
 
   return (
     <>
+      <Header />
+
       <select class="select select-primary w-full max-w-xs">
         <option disabled>Year</option>
         {(() => {

@@ -9,10 +9,10 @@ export const getUser = cache(async () => {
     const userID = await getUserSession();
     console.log(2222222);
     if (userID === undefined || userID === null) throw new Error("User not found");
-    console.log(3333333);
+    console.log(3333333, userID);
     const username = await db.user.getUsername(userID);
     if (!username) throw new Error("User not found");
-    console.log(4444444);
+    console.log(4444444, userID, username);
     return { id: userID, username: username };
   } catch {
     console.log(999999);
@@ -26,6 +26,7 @@ export const register = action(async (formData: FormData) => {
   "use server";
   const username = String(formData.get("username"));
   const password = String(formData.get("password"));
+  console.log("signing up", username, password);
   if (typeof username !== "string" || username.length < 3) {
     return new Error(`Usernames must be at least 3 characters long`);
   }
@@ -39,13 +40,14 @@ export const register = action(async (formData: FormData) => {
   } catch (err) {
     return err as Error;
   }
-  return redirect("/");
+  throw redirect(`/year/${new Date().getFullYear()}`);
 });
 
 export const login = action(async (formData: FormData) => {
   "use server";
   const username = String(formData.get("username"));
   const password = String(formData.get("password"));
+  console.log("logging in", username, password);
 
   try {
     const userID = await db.user.tryLogin(username, password);
@@ -54,11 +56,13 @@ export const login = action(async (formData: FormData) => {
   } catch (err) {
     return err as Error;
   }
-  return redirect("/");
+  throw redirect(`/year/${new Date().getFullYear()}`);
 });
 
 export const logout = action(async () => {
   "use server";
+  console.log("logging out");
   await clearUserSession();
-  return redirect("/login");
+  console.log("logging out", 2);
+  throw redirect("/login");
 });

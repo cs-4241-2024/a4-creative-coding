@@ -26,15 +26,10 @@ const yearFilters: MatchFilters = {
   }
 };
 
-// Root
-const Root: Component = (props: any) => {
-  return (<> <Header /> {props.children} </>);
-};
-
 // Routes
 export default function App() {
   return (
-    <Router root={Root}>
+    <Router>
       <Route path="/day/:day" component={Day} matchFilters={dayFilters} />
       <Route path="/year/:year" component={Year} matchFilters={yearFilters} />
       <Route path="/login" component={Auth} />

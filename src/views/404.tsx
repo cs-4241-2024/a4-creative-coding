@@ -1,8 +1,12 @@
 import type { Component } from 'solid-js';
+import HeaderNoAuth from './components/header_noauth';
 
 const NotFound: Component = () => {
   return (
-    <h1>404 Not Found</h1>
+    <>
+      <HeaderNoAuth />
+      <h1>404 Not Found</h1>
+    </>
   );
 };
 
