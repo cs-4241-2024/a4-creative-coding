@@ -1,16 +1,11 @@
-import type { Config } from 'tailwindcss';
-import daisyui from 'daisyui';
-
-const config: Config = {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx,css,md,mdx,html,json,scss}',
-  ],
-  darkMode: 'class',
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  mode: "all",
+  content: ["./src/**/*.{go,js,templ,html}"],
   theme: {
     extend: {},
   },
-  plugins: [daisyui],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: ["coffee"], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
@@ -22,5 +17,3 @@ const config: Config = {
     themeRoot: ":root", // The element that receives theme color CSS variables
   },
 };
-
-export default config;

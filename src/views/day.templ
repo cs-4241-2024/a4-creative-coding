@@ -1,0 +1,15 @@
+package views
+
+import (
+	"fmt"
+	"github.com/liamsnow/cs4241-assignment4/models"
+	"time"
+)
+
+templ Day(summary []models.Recording, date time.Time) {
+	<h1>Day View</h1>
+	for _, recording := range summary {
+		<p>{ fmt.Sprintf("%d", recording.ID) }</p>
+	}
+	@Recorder(date)
+}

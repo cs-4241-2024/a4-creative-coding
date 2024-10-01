@@ -1,0 +1,105 @@
+package views
+
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
+
+templ Month(summary map[time.Time]int, calendar [5][7]time.Time, year uint32, month uint32) {
+	<div class="flex items-center justify-between max-w-[560px] mx-auto px-[10px] mt-[10px]">
+		<a href={ getNextUrl(year, month, true) }
+      class="btn btn-square">
+      &lt;
+    </a>
+		<h1 class="text-2xl font-bold text-center">
+			{ time.Month(month).String() } { strconv.FormatUint(uint64(year), 10) }
+		</h1>
+		<a href={ getNextUrl(year, month, false) }
+      class="btn btn-square">
+      &gt;
+    </a>
+	</div>
+	<table class="w-full border-collapse max-w-[600px] mx-auto mt-[20px]">
+		<thead>
+			<tr>
+				for _, day := range []string{"S", "M", "T", "W", "T", "F", "S"} {
+					<th class="w-8 h-8 text-sm text-gray-500">{ day }</th>
+				}
+			</tr>
+		</thead>
+		<tbody>
+			@MonthBody(summary, calendar, year, month)
+		</tbody>
+	</table>
+	@Recorder(time.Now())
+}
+
+func getNextUrl(year uint32, month uint32, back bool) templ.SafeURL {
+    if back {
+        if month == 1 {
+            return templ.SafeURL(fmt.Sprintf("../%d/%d", year-1, 12))
+        }
+        return templ.SafeURL(fmt.Sprintf("../%d/%d", year, month-1))
+    } else {
+        if month == 12 {
+            return templ.SafeURL(fmt.Sprintf("../%d/%d", year+1, 1))
+        }
+        return templ.SafeURL(fmt.Sprintf("../%d/%d", year, month+1))
+    }
+}
+
+templ MonthBody(summary map[time.Time]int, calendar [5][7]time.Time, year uint32, month uint32) {
+	for weekNumber, days := range calendar {
+		@WeekRow(summary, days, weekNumber)
+	}
+}
+
+templ WeekRow(summary map[time.Time]int, days [7]time.Time, weekNumber int) {
+	<tr>
+		for _, day := range days {
+			@DayCell(day, weekNumber, summary[day])
+		}
+	</tr>
+}
+
+templ DayCell(day time.Time, weekNumber int, count int) {
+	if isEmptyCell(day, weekNumber) {
+		<td class="w-8 h-8"></td>
+	} else {
+		<td class="w-8 h-8 p-1">
+			@DayLink(day, count)
+		</td>
+	}
+}
+
+templ DayLink(date time.Time, count int) {
+	<a
+		href={ templ.SafeURL(fmt.Sprintf("../../day/%s", date.Format("2006-01-02"))) }
+		class="w-full h-full rounded-md {getDayColors(count)} flex items-center justify-center text-xs font-semibold"
+		title={ fmt.Sprintf("%s: %d recordings", date.Format("Jan 2, 2006"), count) }
+	>
+		{ strconv.Itoa(date.Day()) }
+	</a>
+}
+
+func getDayColors(count int) string {
+	if count == 1 {
+		return "bg-green-200 hover:bg-green-300"
+	} else if count >= 2 {
+		return "bg-green-300 hover:bg-green-400"
+	} else {
+		return "bg-gray-100 hover:bg-gray-200"
+	}
+}
+
+func isEmptyCell(day time.Time, weekNumber int) bool {
+	date := day.Day()
+	if weekNumber == 0 && date > 7 {
+		return true
+	} else if weekNumber == 4 && date < 20 {
+		return true
+	} else {
+		return false
+	}
+}
