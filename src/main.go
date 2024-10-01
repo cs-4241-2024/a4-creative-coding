@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"net/http"
 	"path/filepath"
 	"strconv"
@@ -27,7 +28,7 @@ func main() {
 	// cookies
 	store := cookie.NewStore([]byte(secret))
 	store.Options(sessions.Options{Path: "/", MaxAge: 86400 * 7, HttpOnly: false})
-	r.Use(sessions.Sessions("lell_session", store))
+	r.Use(sessions.Sessions("vd_session", store))
 
 	// statics
 	r.Static("/assets", "../assets")
@@ -56,6 +57,7 @@ func main() {
 		})
 		authorized.GET("/month/:year/:month", GetMonth)
 		authorized.GET("/day/:day", GetDay)
+		authorized.GET("/recording/:id", GetRecording)
 		authorized.POST("/delete/:id", DeleteRecording)
 		authorized.POST("/save", SaveRecording)
 	}
@@ -103,17 +105,44 @@ func DeleteRecording(c *gin.Context) {
 
 	err := DeleteRecordingDB(userID, uint32(recordingID))
 	if err != nil {
-		// ERROR
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,
 		})
 		return
 	}
 
-	// SUCCESS
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Recording deleted successfully",
 	})
+}
+
+func GetRecording(c *gin.Context) {
+	userID, _ := GetCurrentUserID(c)
+	recordingID, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+
+	owns, err := DoesOwnRecordingDB(userID, uint32(recordingID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err,
+		})
+		return
+	}
+	if owns {
+		filePath := filepath.Join("..", "recordings", fmt.Sprintf("%d", userID), fmt.Sprintf("%d.wav", recordingID))
+
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": "Recording file not found",
+			})
+			return
+		}
+
+		c.File(filePath)
+	} else {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "User does not own that recording!",
+		})
+	}
 }
 
 func GetMonth(c *gin.Context) {

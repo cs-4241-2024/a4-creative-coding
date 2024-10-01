@@ -112,7 +112,7 @@ templ Recorder(date time.Time) {
 
       //use provided date, and current time (local)
       const dateStr = JSON.parse(document.getElementById('date').textContent);
-      const providedDate = new Date(dateStr);
+      const providedDate = new Date(dateStr + "T00:00:00");
       const now = new Date();
       now.setFullYear(providedDate.getFullYear());
       now.setMonth(providedDate.getMonth());
@@ -128,6 +128,7 @@ templ Recorder(date time.Time) {
 
       if (response.ok) {
         console.log('Recording saved successfully');
+        window.location.reload();
       } else {
         const errorText = await response.text();
         console.error('Failed to save recording:', response.status, errorText);

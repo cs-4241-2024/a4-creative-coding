@@ -1654,10 +1654,6 @@ html {
   margin-bottom: 5rem;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -1682,12 +1678,24 @@ html {
   margin-top: 1.5rem;
 }
 
+.mt-\[10px\] {
+  margin-top: 10px;
+}
+
 .mt-\[20px\] {
   margin-top: 20px;
 }
 
-.mt-\[10px\] {
-  margin-top: 10px;
+.mt-\[5px\] {
+  margin-top: 5px;
+}
+
+.mb-\[4px\] {
+  margin-bottom: 4px;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -1722,6 +1730,10 @@ html {
   height: 100%;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .max-h-0 {
   max-height: 0px;
 }
@@ -1754,6 +1766,10 @@ html {
   width: 100%;
 }
 
+.w-6 {
+  width: 1.5rem;
+}
+
 .max-w-\[560px\] {
   max-width: 560px;
 }
@@ -1768,6 +1784,14 @@ html {
 
 .border-collapse {
   border-collapse: collapse;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 .items-center {
@@ -1854,14 +1878,14 @@ html {
   padding: 0.75rem;
 }
 
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
 .px-\[10px\] {
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .text-center {

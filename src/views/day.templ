@@ -7,9 +7,34 @@ import (
 )
 
 templ Day(summary []models.Recording, date time.Time) {
-	<h1>Day View</h1>
-	for _, recording := range summary {
-		<p>{ fmt.Sprintf("%d", recording.ID) }</p>
-	}
+	<h1 class="text-2xl font-bold text-center mt-[20px]">
+		{ date.Format("January 2, 2006") }
+	</h1>
+	<div class="flex flex-col items-center mt-[20px]" style="flex-direction: column">
+    if len(summary) > 0 {
+      for i, recording := range summary {
+        <h3 class="font-bold text-center mt-[20px] mb-[4px]">
+          Recording { fmt.Sprintf("%d", i+1) }
+          <button class="btn btn-ghost"
+            hx-confirm="Are you sure you want to delete this recording?"
+            hx-post={ fmt.Sprintf("/delete/%d", recording.ID) }
+            >
+            -
+          </button>
+        </h3>
+        <audio controls class="block">
+          <source src={ fmt.Sprintf("/recording/%d", recording.ID) } type="audio/mpeg"/>
+          Your browser does not support the audio element.
+        </audio>
+      }
+    }
+    else {
+      <h2 class="font-bold text-center">No recordings here yet.</h2>
+      <p class="text-center">Make one by pressing the red button below.</p>
+    }
+	</div>
+	<script type="text/javascript">
+    //
+  </script>
 	@Recorder(date)
 }

@@ -144,15 +144,13 @@ func SaveRecordingDB(userID uint32, datetime time.Time) (int32, error) {
 }
 
 func DeleteRecordingDB(userID, recordingID uint32) error {
-	var dbUserID uint32
-	err := db.QueryRow("SELECT user_id FROM recordings WHERE id = ?", recordingID).Scan(&dbUserID)
-	if err != nil {
-		return err
-	}
-
-	if dbUserID != userID {
-		return fmt.Errorf("unauthorized: recording does not belong to user")
-	}
+  owns, err := DoesOwnRecordingDB(userID, recordingID)
+  if err != nil {
+    return err
+  }
+  if !owns {
+    return fmt.Errorf("user does not own recording!")
+  }
 
 	_, err = db.Exec("DELETE FROM recordings WHERE id = ?", recordingID)
 	if err != nil {
@@ -161,6 +159,16 @@ func DeleteRecordingDB(userID, recordingID uint32) error {
 
 	filePath := filepath.Join("recordings", fmt.Sprintf("%d", userID), fmt.Sprintf("%d.mp3", recordingID))
 	return os.Remove(filePath)
+}
+
+func DoesOwnRecordingDB(userID, recordingID uint32) (bool, error) {
+	var dbUserID uint32
+	err := db.QueryRow("SELECT user_id FROM recordings WHERE id = ?", recordingID).Scan(&dbUserID)
+	if err != nil {
+		return false, err
+	}
+
+	return dbUserID == userID, nil
 }
 
 func GetMonthSummaryDB(userID, year, month uint32) (map[time.Time]int, error) {
@@ -193,8 +201,6 @@ func GetMonthSummaryDB(userID, year, month uint32) (map[time.Time]int, error) {
 
 	return summary, rows.Err()
 }
-
-
 
 func GetDaySummaryDB(userID uint32, date time.Time) ([]models.Recording, error) {
 	rows, err := db.Query(`
