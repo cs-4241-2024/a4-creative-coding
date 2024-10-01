@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartesian Plot Graph</title>
+    <link rel="stylesheet" href="css/mvp.css">
+</head>
+<body>
+    <div class="flex-container"></div>
+
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+      const width = 640;
+      const height = 400;
+      const marginTop = 20;
+      const marginRight = 20;
+      const marginBottom = 30;
+      const marginLeft = 40;
+
+      const x = d3.scaleLinear()
+          .domain([0, 100])
+          .range([marginLeft, width - marginRight]);
+
+      const y = d3.scaleLinear()
+          .domain([0, 100])
+          .range([height - marginBottom, marginTop]);
+
+      function drawGraph() {
+          const existingSvg = document.getElementById("graph-svg");
+          if (existingSvg) {
+              existingSvg.remove();
+          }
+
+          const svg = d3.create("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .attr("id", "graph-svg"); 
+
+          svg.append("g")
+              .attr("transform", `translate(0,${height - marginBottom})`)
+              .call(d3.axisBottom(x));
+
+          svg.append("g")
+              .attr("transform", `translate(${marginLeft},0)`)
+              .call(d3.axisLeft(y));
+
+          const pointX = 50;
+          const pointY = 50;
+
+          const container = document.getElementById("container");
+          container.append(svg.node());
+      }
+
+      document.getElementById("clear").addEventListener("click", () => {
+          const plotPoints = document.querySelectorAll("#graph-svg .plot-point");
+          plotPoints.forEach(point => point.remove());
+          console.log("Red dots removed");
+      });
+
+      document.getElementById("submitButton").addEventListener("click", () => {
+          const item = document.getElementById("item").value;
+          const description = document.getElementById("description").value;
+          const color = document.getElementById("color").value;
+          const fill = document.getElementById("fill").value;
+
+          if(color == undefined) {
+              color = "black";
+          }
+
+          var radius = 5;
+          const size = parseFloat(fill);
+          
+          radius = size;
+
+          
+          
+
+
+          const xValue = parseFloat(item);
+          const yValue = parseFloat(description);
+
+          const svg = d3.select("#graph-svg");
+
+          svg.append("circle")
+              .attr("cx", x(xValue))
+              .attr("cy", y(yValue))
+              .attr("r", radius)
+              .attr("fill", color)
+              .attr("class", "plot-point");
+
+          console.log("Red dot added");
+      });
+
+      drawGraph();
+  </script>
+      <div>
+    <form>
+      <input type="hidden" id="itemId" value="">
+    <input type="number" name="x-value" id="item" class="main-title" placeholder="x-value">
+    <input type="number" name="y-value"  id="description" class="main-title" placeholder="y-value">
+    <input type="text" name="color" id="color" class="main-title" placeholder="color">
+    <input type="number" name="fill" id="fill" class="main-title" placeholder="radius">
+    <button id="submitButton" type="button">submit</button>
+      
+    </form>
+
+    <div id="container"></div>
+    <button id="clear">Clear</button>
+    
+  </div>
+</body>
+</html>
