@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 60px;
+    padding: 0.5em;
+    color: rgb(0, 0, 0);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    background-color: rgb(72, 95, 81);
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85%;
+    width: 100%;
+}
+
+canvas {
+    background-color: rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+    border: 3px solid rgb(0, 0, 0);
+    
+}
+
+.material-symbols-outlined {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(19, 19, 19);
+    color: white;
+    padding: 0.5em;
+    border-radius: 50%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+}
